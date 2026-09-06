@@ -15,7 +15,11 @@ These instructions apply to the entire repository.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb` is the
   refined reference.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb` is
-  the latest polished arrangement.
+  the polished-arc reference.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v7_lead_drop.rb` is the
+  experimental lead-drop arrangement.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb`
+  is the latest arrangement and uses a restrained pre-lead layer subtraction.
 - Preserve approved arrangements. Create a new standalone version for a
   substantial remix, timing experiment, or alternate mix.
 - Inspect both the target and its immediate predecessor before editing. Update
@@ -62,6 +66,11 @@ These instructions apply to the entire repository.
   last beat before the ending decay free of sounding events.
 - V6 applies timing swing only to supplemental percussion; GP4-derived notes
   and percussion remain on their exact timing grid.
+- V7 reserves the final beat before the lead for silence. Do not add a crash,
+  bass note, percussion hit, or effect tail on the lead downbeat.
+- V8 replaces V7's EDM-style lead buildup with a four-bar subtraction. Preserve
+  at least one full beat of silence before the isolated lead, and do not add a
+  riser, accelerating drum roll, fake drop, or lead-downbeat impact there.
 
 ## Editing and Git safety
 
