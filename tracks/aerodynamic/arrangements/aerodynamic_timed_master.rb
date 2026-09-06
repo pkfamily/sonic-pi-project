@@ -1,4 +1,4 @@
-# Aerodynamic arrangement rebuilt from aerodynamic.gp4.
+# Timestamp-matched Aerodynamic arrangement derived from ../references/aerodynamic.gp4.
 #
 # Hybrid choices retained from the working version:
 # - four opening bells, one strike per bar
@@ -281,35 +281,53 @@ define :post_effect_chord_bar do |bar_index|
 end
 
 # -----------------------------------------------------------------------------
-# Single finite master timeline
+# Timestamp-matched finite master timeline
+# At 120 BPM in 4/4, each four-beat bar lasts exactly two seconds.
 # -----------------------------------------------------------------------------
 
-# Custom four-bar bell intro.
+opening_bell_bars = 8
+opening_groove_bars = 22
+lead_only_bars = 16
+lead_stage_one_bars = 8
+lead_stage_two_bars = 16
+transition_wait_beats = 16
+post_melody_only_bars = 12
+post_layered_bars = 16
+
+# 0:00-0:16: four bells at 0:00, 0:04, 0:08, and 0:12.
 cue :section_opening_bells
-4.times do
-  church_bell
+opening_bell_bars.times do |bar|
+  church_bell if bar.even?
   sleep 4
 end
 
-# GP4 measures 9-16: the opening groove builds in two four-bar phases.
+# 0:16-1:00: extended opening groove.
+# Stage one is measures 9-12 x3; stage two is measures 13-16 x2 + 13-14.
 cue :section_opening_groove
-8.times do |bar|
-  source_measure = 9 + bar
-  in_thread { opening_melody_bar [12, 16].include?(source_measure) }
-  in_thread { opening_bass_bar bar }
+opening_groove_bars.times do |bar|
+  if bar < 12
+    source_measure = 9 + (bar % 4)
+  else
+    source_measure = 13 + ((bar - 12) % 4)
+  end
+
+  in_thread do
+    opening_melody_bar [12, 16].include?(source_measure)
+  end
+  in_thread { opening_bass_bar source_measure - 9 }
   in_thread { percussion_one_bar source_measure.odd? }
 
   if source_measure.even?
-    in_thread { opening_synth_accent_bar [12, 16].include?(source_measure) }
+    in_thread do
+      opening_synth_accent_bar [12, 16].include?(source_measure)
+    end
   end
 
-  # The second portion adds GP4 Daft Percussion 2, including its kick pattern.
-  in_thread { percussion_two_bar } if source_measure >= 13
+  # The heavier GP4 percussion layer enters for the final ten bars.
+  in_thread { percussion_two_bar } if bar >= 12
   sleep 4
 end
 
-# GP4 measures 17-40: lead alone, progressive doubling, then groove return.
-cue :section_tapping_lead
 lower_lead = [
   [:d4, :fs3, :b3, :fs3],
   [:d4, :gs3, :b3, :gs3],
@@ -323,67 +341,102 @@ upper_lead = [
   [:e5, :a4, :cs5, :a4]
 ]
 
-24.times do |bar|
-  source_measure = 17 + bar
+# 1:00-1:32: sixteen bars of lead with no supporting layers.
+cue :section_lead_only
+lead_only_bars.times do |bar|
   phrase_bar = bar % 4
-  lead_notes = if source_measure >= 25 && source_measure <= 32
-                 upper_lead[phrase_bar]
-               else
-                 lower_lead[phrase_bar]
-               end
-
+  lead_notes = bar < 8 ? lower_lead[phrase_bar] : upper_lead[phrase_bar]
   in_thread { tapping_bar lead_notes }
+  sleep 4
+end
 
-  if (source_measure >= 21 && source_measure <= 32) || source_measure >= 37
-    in_thread { lead_effect_bar lower_lead[phrase_bar] }
+# 1:32-1:48: GP4 measures 29-32 repeated twice.
+# Lead + first-stage groove; the heavy percussion remains absent.
+cue :section_lead_stage_one
+lead_stage_one_bars.times do |bar|
+  source_measure = 29 + (bar % 4)
+  phrase_bar = bar % 4
+
+  in_thread { tapping_bar upper_lead[phrase_bar] }
+  in_thread { lead_effect_bar lower_lead[phrase_bar] }
+  in_thread do
+    opening_melody_bar source_measure == 32
   end
+  in_thread { opening_bass_bar source_measure - 29 }
+  in_thread { percussion_one_bar source_measure.odd? }
 
-  if source_measure >= 29
-    groove_bar = source_measure - 29
-    in_thread { opening_melody_bar [32, 36, 40].include?(source_measure) }
-    in_thread { opening_bass_bar groove_bar }
-    in_thread { percussion_one_bar source_measure.odd? }
-    in_thread { percussion_two_bar } if source_measure >= 33
-
-    if source_measure.even?
-      in_thread do
-        opening_synth_accent_bar [32, 36, 40].include?(source_measure)
-      end
+  if source_measure.even?
+    in_thread do
+      opening_synth_accent_bar source_measure == 32
     end
   end
 
   sleep 4
 end
 
-# Every lead and groove thread has now consumed its final four-beat bar.
+# 1:48-2:20: GP4 measures 33-40 repeated twice.
+# The complete heavier opening groove now plays over the lower lead.
+cue :section_lead_stage_two
+lead_stage_two_bars.times do |bar|
+  source_measure = 33 + (bar % 8)
+  phrase_bar = bar % 4
+
+  in_thread { tapping_bar lower_lead[phrase_bar] }
+  in_thread do
+    opening_melody_bar [36, 40].include?(source_measure)
+  end
+  in_thread { opening_bass_bar source_measure - 29 }
+  in_thread { percussion_one_bar source_measure.odd? }
+  in_thread { percussion_two_bar }
+
+  # Effets is absent in measures 33-36 and returns in measures 37-40.
+  if source_measure >= 37
+    in_thread { lead_effect_bar lower_lead[phrase_bar] }
+  end
+
+  if source_measure.even?
+    in_thread do
+      opening_synth_accent_bar [36, 40].include?(source_measure)
+    end
+  end
+
+  sleep 4
+end
+
+# 2:20: every lead and groove bar has ended before this strike.
 cue :section_transition_bell
 church_bell
-sleep 8
 
-# GP4 measures 45-52, expanded to three passes by request.
-cue :section_post_bell_melody
-3.times do |pass|
+# Sixteen beats at 120 BPM equals the required eight-second interval.
+sleep transition_wait_beats
+
+# 2:28-2:52: three complete passes of the two-voice melody alone.
+cue :section_post_bell_melody_only
+(post_melody_only_bars / 4).times do
   4.times do |bar|
     in_thread { post_synth_bar bar, false }
     in_thread { post_synth_bar bar, true }
-
-    # Pass one is synth-only. Passes two and three use the GP4 49-52 layers.
-    if pass >= 1
-      in_thread { post_bass_bar }
-      in_thread { post_hihat_bar }
-      in_thread { post_drums_bar }
-      in_thread { post_effect_chord_bar bar }
-    end
-
     sleep 4
   end
 end
 
-# GP4 measures 53-56: closing bells, one per bar.
-cue :section_closing_bells
-4.times do
-  church_bell
-  sleep 4
+# 2:52-3:24: four complete passes with the GP4 rhythm section.
+cue :section_post_bell_layered
+(post_layered_bars / 4).times do
+  4.times do |bar|
+    in_thread { post_synth_bar bar, false }
+    in_thread { post_synth_bar bar, true }
+    in_thread { post_bass_bar }
+    in_thread { post_hihat_bar }
+    in_thread { post_drums_bar }
+    in_thread { post_effect_chord_bar bar }
+    sleep 4
+  end
 end
+
+# 3:24: all melody and rhythm threads have ended; strike one final bell.
+cue :section_final_bell
+church_bell
+sleep 5
 
 cue :arrangement_complete

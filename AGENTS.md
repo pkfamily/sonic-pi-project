@@ -1,0 +1,76 @@
+# Repository instructions
+
+These instructions apply to the entire repository.
+
+## Layout and versioning
+
+- Put complete Sonic Pi tracks in a track's `arrangements/` directory,
+  isolated experiments in `studies/`, and source material in `references/`.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v2_filter_house.rb` is
+  the stable Aerodynamic remix.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb` is the
+  latest arrangement and an experimental timing version.
+- Preserve approved arrangements. Create a new standalone version for a
+  substantial remix, timing experiment, or alternate mix.
+- Inspect both the target and its immediate predecessor before editing. Update
+  derivation headers and README paths when files move or are renamed.
+
+## Sonic Pi conventions
+
+- Write for Sonic Pi's Ruby dialect and use lowercase `snake_case` names.
+- Never use built-in Sonic Pi function names such as `chord`, `sample`,
+  `scale`, or `synth` as variables.
+- Prefer explicit finite loops and deterministic scheduling. Do not introduce
+  unrestricted `live_loop`s unless the task explicitly requires them.
+- Ordinary bar helpers must consume exactly four beats. A partial-bar effect
+  must still preserve the master timeline.
+- Use `cue` for major section boundaries and keep every spawned thread finite.
+- Suppress final-bar events and shorten releases when a following section must
+  be isolated or silent.
+- Use built-in synths, samples, and effects unless the user supplies or
+  authorizes external assets.
+
+## Musical invariants
+
+- Preserve GP4-derived pitches, note order, and intervals unless recomposition
+  is explicitly requested.
+- Preserve the corrected mixed-register lead and compare lead changes against
+  `tracks/aerodynamic/studies/lead_only.rb`.
+- When an arrangement specifies a lead-only entrance, no bass, percussion,
+  pad, stab, delayed sample, or unrelated synth may remain audible.
+- Keep four opening bells, one transition bell, and one final bell unless the
+  task explicitly changes that structure.
+- Treat transcription, sound design, arrangement timing, and mix balance as
+  separate concerns; avoid changing several at once without a clear reason.
+
+## Known timing history
+
+- Earlier arrangements repeatedly leaked bass, percussion, or synth tails into
+  the protected lead passage. Dedicated finite helpers and final-bar
+  suppression proved more reliable than attempts to stop uncontrolled loops.
+- V3 corrected a post-bell harmonic bar that could schedule notes beyond its
+  four-beat boundary. Do not restore the overflowing timing logic.
+
+## Editing and Git safety
+
+- Preserve unrelated user changes and do not delete reference files merely
+  because runtime code does not load them.
+- Keep large experiments in new files so stable versions remain available for
+  A/B listening.
+- Do not commit or push unless the user explicitly requests it.
+
+## Validation
+
+For every changed `.rb` file:
+
+1. Run `ruby -c path/to/file.rb`.
+2. Run Sonic Pi's actual pre-parser using the command documented in
+   `README.md`.
+3. Search for assignments that use reserved Sonic Pi function names.
+4. Recalculate cumulative beat totals and section cue timestamps.
+5. Compare protected lead passages and predecessor checksums when creating a
+   new version.
+6. Confirm deliberate silent passages contain no sounding threads or long
+   releases.
+7. Listen to the complete result in Sonic Pi. Parser success does not validate
+   musical balance or audible transitions.
