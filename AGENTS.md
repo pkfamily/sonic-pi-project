@@ -13,7 +13,9 @@ These instructions apply to the entire repository.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v4_cleanup.rb` is the
   cleanup reference.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb` is the
-  latest polished arrangement.
+  refined reference.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb` is
+  the latest polished arrangement.
 - Preserve approved arrangements. Create a new standalone version for a
   substantial remix, timing experiment, or alternate mix.
 - Inspect both the target and its immediate predecessor before editing. Update
@@ -58,6 +60,8 @@ These instructions apply to the entire repository.
   lower-level final bell instead of the oversized opening-bell patch.
 - V5 strengthens the remix arc through staged layer handoffs and keeps the
   last beat before the ending decay free of sounding events.
+- V6 applies timing swing only to supplemental percussion; GP4-derived notes
+  and percussion remain on their exact timing grid.
 
 ## Editing and Git safety
 
