@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/sonic-pi-project-banner.svg" alt="Sonic Pi Projects — arrangements, reconstruction studies, and remixes" width="100%">
+</p>
+
 # Sonic Pi Projects
 
 Sonic Pi arrangements, reconstruction studies, and remixes. The main project

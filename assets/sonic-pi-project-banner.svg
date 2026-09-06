@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">Sonic Pi Projects</title>
+  <desc id="desc">A neon audio waveform banner for Sonic Pi arrangements, studies, and remixes.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10122d"/>
+      <stop offset="0.52" stop-color="#18113a"/>
+      <stop offset="1" stop-color="#071d2d"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#55f6d2"/>
+      <stop offset="0.5" stop-color="#d96cff"/>
+      <stop offset="1" stop-color="#ffcf70"/>
+    </linearGradient>
+    <filter id="soft-glow" x="-30%" y="-100%" width="160%" height="300%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity=".055"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="300" rx="22" fill="url(#bg)"/>
+  <rect x="1" y="1" width="1198" height="298" rx="21" fill="url(#grid)" stroke="#ffffff" stroke-opacity=".12"/>
+  <circle cx="1050" cy="35" r="190" fill="#b65cff" opacity=".08"/>
+  <circle cx="115" cy="285" r="170" fill="#39e7d0" opacity=".07"/>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, -apple-system, sans-serif">
+    <text x="76" y="102" fill="#55f6d2" font-size="16" font-weight="700" letter-spacing="4">SONIC PI / AUDIO LAB</text>
+    <text x="72" y="158" fill="#ffffff" font-size="48" font-weight="800" letter-spacing="-1">Sonic Pi Projects</text>
+    <text x="76" y="193" fill="#c9c6df" font-size="19">Arrangements · reconstruction studies · remixes</text>
+    <text x="76" y="237" fill="#ffcf70" font-size="14" font-weight="700" letter-spacing="2">AERODYNAMIC / 120 BPM / BUILT IN CODE</text>
+  </g>
+
+  <g fill="none" stroke="url(#glow)" stroke-linecap="round" filter="url(#soft-glow)">
+    <path d="M742 153h28l10-47 14 103 17-154 18 190 20-128 14 68 17-32 14 10h26" stroke-width="4"/>
+    <path d="M742 210h46l12-19 13 12 17-35 15 42 18-15 16 14 18-27 16 28h32" stroke-width="2" opacity=".82"/>
+  </g>
+  <g fill="#ffffff">
+    <circle cx="742" cy="153" r="4"/><circle cx="918" cy="153" r="4"/>
+  </g>
+  <path d="M72 266H1128" stroke="#ffffff" stroke-opacity=".14"/>
+  <text x="1128" y="280" text-anchor="end" fill="#8f8ba9" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">v5 refined arrangement</text>
+</svg>
