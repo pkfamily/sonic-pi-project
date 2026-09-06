@@ -1,4 +1,4 @@
-# Filter-house club remix derived from aerodynamic_remix.rb.
+# Experimental timing remix derived from aerodynamic_remix_v2_filter_house.rb.
 #
 # Hybrid choices retained from the working version:
 # - four opening bells spread across the eight-bar introduction
@@ -6,7 +6,8 @@
 # - progressive remix development inside the fixed section timeline
 #
 # Core GP4 pitches and rhythms remain intact beneath deterministic remix layers.
-# The 1:00-1:32 lead-only passage is intentionally unchanged.
+# The successful V2 sound design is retained while section duration,
+# perceived rhythmic speed, and transition timing are re-arranged.
 
 use_bpm 120
 
@@ -233,7 +234,7 @@ define :lead_effect_bar do |notes|
 end
 
 # GP4 Synthes 1 and Harmonique: measures 45-52.
-define :post_synth_bar do |bar_index, harmonic_voice|
+define :post_synth_bar do |bar_index, harmonic_voice, end_beat|
   if harmonic_voice
     note_bars = [
       [:fs4, :b3, :d4, :b3, :fs4, :b3, :fs4, :g4, :fs4, :e4],
@@ -258,7 +259,9 @@ define :post_synth_bar do |bar_index, harmonic_voice|
   events = []
 
   notes.each_with_index do |note, index|
-    if bar_index == 3
+    # Eight-note bars use straight eighth notes. Ten-note bars use six
+    # eighth notes followed by four sixteenths so they remain four beats.
+    if notes.length == 8
       onset = index * 0.5
       duration = 0.5
     elsif index < 6
@@ -274,7 +277,8 @@ define :post_synth_bar do |bar_index, harmonic_voice|
     events.push [onset, duration, note, level]
   end
 
-  tonal_bar events, synth_name, base_amp, 104
+  timed_events = events.select { |event| event[0] < end_beat }
+  tonal_bar timed_events, synth_name, base_amp, 104
 end
 
 define :post_bass_bar do
@@ -402,7 +406,7 @@ define :remix_pad_bar do |chord_notes, amp_value, cutoff_value, pumped|
 end
 
 # Supplemental filter-house drums only; original GP4 percussion is untouched.
-define :filter_house_drums_bar do |stage, final_bar|
+define :filter_house_drums_bar do |stage, final_bar, swing_amount|
   events = []
   closed_amp = stage == :climax ? 0.15 : 0.11
   snap_amp = stage == :climax ? 0.18 : 0.14
@@ -412,14 +416,18 @@ define :filter_house_drums_bar do |stage, final_bar|
   if [:hats, :light, :filtered_kick, :drive].include?(stage)
     [0.5, 1.5, 2.5, 3.5].each_with_index do |onset, index|
       pan_value = index.even? ? -0.22 : 0.22
-      events.push [onset, :drum_cymbal_closed, closed_amp, pan_value, nil]
+      timed_onset = onset + (index.odd? ? swing_amount : 0)
+      events.push [timed_onset, :drum_cymbal_closed,
+        closed_amp, pan_value, nil]
     end
   elsif [:club, :climax].include?(stage)
-    events.push [1.5, :drum_cymbal_closed, closed_amp, -0.18, nil]
+    events.push [1.5 + swing_amount, :drum_cymbal_closed,
+      closed_amp, -0.18, nil]
     events.push [0.5, :drum_cymbal_open, open_amp, -0.12, nil]
     unless final_bar
       events.push [2.5, :drum_cymbal_open, open_amp, 0.12, nil]
-      events.push [3.5, :drum_cymbal_closed, closed_amp, 0.18, nil]
+      events.push [3.5 + swing_amount, :drum_cymbal_closed,
+        closed_amp, 0.18, nil]
     end
   end
 
@@ -468,6 +476,143 @@ define :funk_micro_chop_bar do |amp_value|
       cutoff: 96, amp: amp_value, pan: pan_value
     sleep 0.25
   end
+end
+
+# Supplemental beat-only passage used when all tonal layers are removed.
+define :beat_only_bar do |stage, swing_amount, final_bar|
+  filter_house_drums_bar stage, final_bar, swing_amount
+end
+
+# Two silent beats followed by a compact club drop on beat 2.
+define :delayed_drop_drums_bar do
+  events = [
+    [2.0, [[:bd_haus, 0.28]]],
+    [2.5, [[:drum_cymbal_open, 0.13]]],
+    [3.0, [[:bd_haus, 0.28], [:perc_snap, 0.16]]],
+    [3.5, [[:drum_cymbal_closed, 0.12]]]
+  ]
+  drum_bar events
+end
+
+# Half-time perception on the unchanged 120 BPM grid.
+define :half_time_drums_bar do
+  events = []
+  8.times do |step|
+    hits = [[:drum_cymbal_pedal, step.even? ? 0.08 : 0.06]]
+    hits.push [:bd_haus, 0.27] if step == 0
+    hits.push [:sn_dub, 0.25] if step == 4
+    events.push [step * 0.5, hits]
+  end
+  drum_bar events
+end
+
+# Quiet sixteenth hats create double-time energy without changing tempo.
+define :double_time_hats_bar do
+  events = []
+  16.times do |step|
+    level = step % 4 == 2 ? 0.075 : 0.05
+    pan_value = step.even? ? -0.16 : 0.16
+    events.push [step * 0.25,
+      [[:drum_cymbal_pedal, level, pan_value]]]
+  end
+
+  cursor = 0.0
+  events.each do |event|
+    onset = event[0].to_f
+    sleep onset - cursor if onset > cursor
+    hit = event[1][0]
+    sample hit[0], amp: hit[1], pan: hit[2]
+    cursor = onset
+  end
+  sleep 4.0 - cursor if cursor < 4.0
+end
+
+# Three beats of the approved lead/groove followed by an accelerating D4
+# stutter. All sounding events terminate before the next downbeat.
+define :transition_stutter_bar do |lead_notes|
+  in_thread do
+    use_synth :zawa
+    use_synth_defaults attack: 0.05, sustain: 0.15,
+      release: 0.125, amp: 0.55
+    3.times do
+      lead_notes.each do |note|
+        play note
+        sleep 0.25
+      end
+    end
+  end
+
+  in_thread do
+    use_synth :blade
+    note_index = 0
+    3.times do
+      lead_notes.each do |note|
+        pan_value = note_index.even? ? -0.14 : 0.14
+        play note, attack: 0.01, sustain: 0, release: 0.14,
+          cutoff: 102, amp: 0.09, pan: pan_value
+        note_index += 1
+        sleep 0.25
+      end
+    end
+  end
+
+  in_thread do
+    events = [
+      [0.5, :d4, 1.12, 0.22],
+      [1.0, :b3, 0.84, 0.11],
+      [2.0, :a3, 1.00, 0.11],
+      [2.25, :b3, 0.76, 0.11],
+      [2.5, :d4, 1.18, 0.22]
+    ]
+    cursor = 0.0
+    use_synth :pluck
+    events.each do |event|
+      onset = event[0].to_f
+      sleep onset - cursor if onset > cursor
+      play event[1], attack: 0.003, sustain: 0,
+        release: event[3], cutoff: 104, amp: 0.48 * event[2]
+      cursor = onset
+    end
+    sleep 4.0 - cursor if cursor < 4.0
+  end
+
+  in_thread do
+    events = [
+      [0.0, 1.0, :g2, 1.0],
+      [1.5, 0.5, [:b2, :e2], 0.78]
+    ]
+    tonal_bar events, :tb303, 0.27, 62
+  end
+
+  in_thread { filter_house_drums_bar :climax, true, 0 }
+
+  sleep 3
+  use_synth :pluck
+  [0.5, 0.25, 0.125, 0.125].each do |interval|
+    play :d4, attack: 0.001, sustain: 0, release: 0.05,
+      cutoff: 108, amp: 0.17
+    sleep interval
+  end
+end
+
+# Both post-bell voices truncated at the same beat while the bar still
+# consumes four beats, creating intentional silence at its end.
+define :post_synth_cut_bar do |bar_index, end_beat|
+  in_thread do
+    with_fx :pan, pan: -0.12 do
+      post_synth_bar bar_index, false, end_beat
+    end
+  end
+  in_thread do
+    with_fx :pan, pan: 0.12 do
+      post_synth_bar bar_index, true, end_beat
+    end
+  end
+  sleep 4
+end
+
+define :silent_bar do |beat_count|
+  sleep beat_count
 end
 
 define :remix_lead_double do |notes, amp_value, cutoff_value|
@@ -537,19 +682,27 @@ define :post_sub_bar do
 end
 
 # -----------------------------------------------------------------------------
-# Fixed remix timeline - all original section cues remain unchanged.
+# Experimental 120 BPM / 4-4 timing map.
+#
+# Cue beats:
+#   opening groove 32 (0:16)     lead only 144 (1:12)
+#   lead stage one 192 (1:36)    lead stage two 224 (1:52)
+#   transition bell 288 (2:24)   post melody 304 (2:32)
+#   post rhythm 352 (2:56)       final stop 432 (3:36)
+#   final bell 436 (3:38)
 # -----------------------------------------------------------------------------
 
 opening_bell_bars = 8
-opening_groove_bars = 22
-lead_only_bars = 16
+opening_groove_bars = 28
+lead_only_bars = 12
 lead_stage_one_bars = 8
 lead_stage_two_bars = 16
 transition_wait_beats = 16
 post_melody_only_bars = 12
-post_layered_bars = 16
+post_layered_bars = 20
+final_stop_beats = 4
 
-# 0:00-0:16: bells with a finite atmospheric drone.
+# 0:00-0:16: four bells at 0:00, 0:04, 0:08, and 0:12.
 cue :section_opening_bells
 in_thread { intro_drone }
 opening_bell_bars.times do |bar|
@@ -557,7 +710,7 @@ opening_bell_bars.times do |bar|
   sleep 4
 end
 
-# 0:16-1:00: opening groove grows every four bars.
+# 0:16-1:12: extended groove, deconstruction, and one-bar return.
 cue :section_opening_groove
 opening_groove_bars.times do |bar|
   if bar < 12
@@ -565,40 +718,69 @@ opening_groove_bars.times do |bar|
   else
     source_measure = 13 + ((bar - 12) % 4)
   end
+
   chord_notes = remix_chords[bar % 4]
   filter_stage = [bar / 4, 3].min
+  full_groove_bar = bar < 24 || bar == 27
 
-  in_thread do
-    funk_melody_bar [12, 16].include?(source_measure), :front, filter_stage
-  end
-  in_thread { opening_bass_bar source_measure - 9 }
-  in_thread { remix_opening_sub_bar source_measure - 9, :front }
-  in_thread { percussion_one_bar source_measure.odd? }
-
-  if source_measure.even?
+  if full_groove_bar
     in_thread do
-      opening_synth_accent_bar [12, 16].include?(source_measure)
+      funk_melody_bar [12, 16].include?(source_measure),
+        :front, filter_stage
     end
-  end
+    in_thread { opening_bass_bar source_measure - 9 }
+    in_thread { remix_opening_sub_bar source_measure - 9, :front }
 
-  in_thread { percussion_two_bar } if bar >= 12
+    # The final return omits the late GP4 drum hits before lead isolation.
+    in_thread { percussion_one_bar source_measure.odd? } unless bar == 27
+
+    if source_measure.even?
+      in_thread do
+        opening_synth_accent_bar [12, 16].include?(source_measure)
+      end
+    end
+
+    if bar >= 12 && bar < 24
+      in_thread { percussion_two_bar }
+    end
+  elsif bar == 26
+    # Bass-led rebuild after two beat-only bars.
+    in_thread { opening_bass_bar source_measure - 9 }
+    in_thread { remix_opening_sub_bar source_measure - 9, :front }
+  end
 
   if bar >= 4 && bar < 8
-    in_thread { filter_house_drums_bar :hats, false }
+    in_thread { filter_house_drums_bar :hats, false, 0.03 }
   elsif bar >= 8 && bar < 12
-    in_thread { filter_house_drums_bar :filtered_kick, false }
-    in_thread { remix_stabs_bar chord_notes, 0.08, 84 }
+    in_thread { filter_house_drums_bar :filtered_kick, false, 0.03 }
   elsif bar >= 12 && bar < 16
-    in_thread { filter_house_drums_bar :drive, false }
-  elsif bar >= 16
-    in_thread { filter_house_drums_bar :club, bar == 21 }
-    in_thread { remix_stabs_bar chord_notes, 0.09, 90 }
-    in_thread { remix_pad_bar chord_notes, 0.06, 82, true }
+    in_thread { filter_house_drums_bar :drive, false, 0.03 }
+  elsif bar >= 16 && bar < 20
+    in_thread { filter_house_drums_bar :club, false, 0.03 }
+  elsif bar >= 20 && bar < 24
+    in_thread { filter_house_drums_bar :climax, false, 0.03 }
+  elsif bar >= 24 && bar < 26
+    in_thread { beat_only_bar :club, 0.03, false }
+  elsif bar == 26
+    in_thread { filter_house_drums_bar :filtered_kick, false, 0.03 }
+  elsif bar == 27
+    in_thread { filter_house_drums_bar :climax, true, 0 }
   end
 
-  if [7, 11, 15, 21].include?(bar)
+  if (bar >= 8 && bar < 24) || bar == 27
+    stab_amp = bar >= 20 ? 0.11 : 0.08
+    in_thread { remix_stabs_bar chord_notes, stab_amp, 90 }
+  end
+
+  if (bar >= 16 && bar < 24) || bar == 27
+    pad_amp = bar >= 20 ? 0.075 : 0.06
+    in_thread { remix_pad_bar chord_notes, pad_amp, 86, true }
+  end
+
+  if [7, 11, 15, 23, 27].include?(bar)
     in_thread { funk_micro_chop_bar 0.14 }
   end
+
   sleep 4
 end
 
@@ -609,15 +791,13 @@ lower_lead = [
   [:e4, :a3, :cs4, :a3]
 ]
 upper_lead = [
-  # Mixed-register version from the approved standalone lead. It preserves
-  # the phrase while removing the piercing D5-G5 anchor notes.
   [:d4, :fs4, :b3, :fs4],
   [:d4, :gs4, :b3, :gs4],
   [:g4, :b3, :e4, :b3],
   [:e4, :a3, :cs4, :a3]
 ]
 
-# 1:00-1:32: no drums, bass, stabs, or pads; only lead timbre is widened.
+# 1:12-1:36: isolated lead; internal rhythm and voices match V2.
 cue :section_lead_only
 lead_only_bars.times do |bar|
   phrase_bar = bar % 4
@@ -639,7 +819,7 @@ lead_only_bars.times do |bar|
   sleep 4
 end
 
-# 1:32-1:48: lead plus first-stage groove.
+# 1:36-1:52: lead plus a lightly swung first-stage groove.
 cue :section_lead_stage_one
 lead_stage_one_bars.times do |bar|
   source_measure = 29 + (bar % 4)
@@ -655,7 +835,7 @@ lead_stage_one_bars.times do |bar|
   in_thread { opening_bass_bar source_measure - 29 }
   in_thread { remix_opening_sub_bar source_measure - 29, :under_lead }
   in_thread { percussion_one_bar source_measure.odd? }
-  in_thread { filter_house_drums_bar :light, false }
+  in_thread { filter_house_drums_bar :light, false, 0.03 }
 
   if source_measure.even?
     in_thread do
@@ -667,52 +847,65 @@ lead_stage_one_bars.times do |bar|
   sleep 4
 end
 
-# 1:48-2:20: full progressive club treatment.
+# 1:52-2:24: delayed drop, half-time reset, climax, and stutter.
 cue :section_lead_stage_two
 lead_stage_two_bars.times do |bar|
   source_measure = 33 + (bar % 8)
   phrase_bar = bar % 4
   chord_notes = remix_chords[bar % 4]
-  final_bar = bar == 15
 
-  in_thread { tapping_bar lower_lead[phrase_bar] }
-  in_thread { remix_lead_double lower_lead[phrase_bar], 0.09, 102 }
-  in_thread do
-    funk_melody_bar [36, 40].include?(source_measure), :under_lead, 3
-  end
-  in_thread { opening_bass_bar source_measure - 29 }
-  in_thread { remix_opening_sub_bar source_measure - 29, :under_lead }
-  in_thread { percussion_one_bar source_measure.odd? }
-  in_thread { percussion_two_bar }
-
-  if source_measure >= 37
-    in_thread { lead_effect_bar lower_lead[phrase_bar] }
-  end
-
-  if source_measure.even?
+  if bar == 15
+    in_thread { transition_stutter_bar lower_lead[phrase_bar] }
+  else
+    in_thread { tapping_bar lower_lead[phrase_bar] }
+    in_thread { remix_lead_double lower_lead[phrase_bar], 0.09, 102 }
     in_thread do
-      opening_synth_accent_bar [36, 40].include?(source_measure)
+      funk_melody_bar [36, 40].include?(source_measure),
+        :under_lead, 3
     end
+    in_thread { opening_bass_bar source_measure - 29 }
+    in_thread { remix_opening_sub_bar source_measure - 29, :under_lead }
+
+    if source_measure >= 37
+      in_thread { lead_effect_bar lower_lead[phrase_bar] }
+    end
+
+    if source_measure.even?
+      in_thread do
+        opening_synth_accent_bar [36, 40].include?(source_measure)
+      end
+    end
+
+    if bar == 0
+      in_thread { delayed_drop_drums_bar }
+    elsif bar < 8
+      in_thread { percussion_one_bar source_measure.odd? }
+      in_thread { percussion_two_bar }
+      in_thread { filter_house_drums_bar :club, false, 0 }
+    elsif bar < 12
+      in_thread { half_time_drums_bar }
+    else
+      in_thread { percussion_one_bar source_measure.odd? }
+      in_thread { percussion_two_bar }
+      in_thread { filter_house_drums_bar :climax, false, 0 }
+      in_thread { double_time_hats_bar }
+    end
+
+    if bar >= 4
+      stab_amp = bar >= 12 ? 0.14 : (bar >= 8 ? 0.11 : 0.10)
+      pad_amp = bar >= 12 ? 0.10 : (bar >= 8 ? 0.075 : 0.065)
+      pad_cutoff = bar >= 12 ? 94 : (bar >= 8 ? 84 : 82)
+      in_thread { remix_stabs_bar chord_notes, stab_amp, pad_cutoff + 4 }
+      in_thread { remix_pad_bar chord_notes, pad_amp, pad_cutoff, true }
+    end
+
+    in_thread { funk_micro_chop_bar 0.15 } if bar == 7
   end
 
-  drum_stage = bar >= 8 ? :climax : :club
-  in_thread { filter_house_drums_bar drum_stage, final_bar }
-
-  if bar >= 4
-    stab_amp = bar >= 12 ? 0.14 : (bar >= 8 ? 0.12 : 0.10)
-    pad_amp = bar >= 12 ? 0.10 : (bar >= 8 ? 0.08 : 0.065)
-    pad_cutoff = bar >= 8 ? 92 : 82
-    in_thread { remix_stabs_bar chord_notes, stab_amp, pad_cutoff + 4 }
-    in_thread { remix_pad_bar chord_notes, pad_amp, pad_cutoff, true }
-  end
-
-  if [7, 15].include?(bar)
-    in_thread { funk_micro_chop_bar 0.15 }
-  end
   sleep 4
 end
 
-# 2:20-2:28: bell, four clear beats, then a twelve-beat riser.
+# 2:24-2:32: one bell, one bar of space, then the 12-beat riser.
 cue :section_transition_bell
 church_bell
 in_thread do
@@ -721,29 +914,34 @@ in_thread do
 end
 sleep transition_wait_beats
 
-# 2:28-2:52: three melody-only passes with gradual harmonic width.
+# 2:32-2:56: three melody passes; the last beat is silent.
 cue :section_post_bell_melody_only
 (post_melody_only_bars / 4).times do |pass|
   4.times do |bar|
     chord_notes = remix_chords[bar]
+    final_cut_bar = pass == 2 && bar == 3
 
-    in_thread do
-      with_fx :pan, pan: -0.12 do
-        post_synth_bar bar, false
+    if final_cut_bar
+      in_thread { post_synth_cut_bar bar, 3.0 }
+    else
+      in_thread do
+        with_fx :pan, pan: -0.12 do
+          post_synth_bar bar, false, 4.0
+        end
+      end
+      in_thread do
+        with_fx :pan, pan: 0.12 do
+          post_synth_bar bar, true, 4.0
+        end
       end
     end
-    in_thread do
-      with_fx :pan, pan: 0.12 do
-        post_synth_bar bar, true
-      end
-    end
 
-    if pass >= 1
+    if pass >= 1 && !final_cut_bar
       pad_amp = pass == 1 ? 0.055 : 0.075
       in_thread { remix_pad_bar chord_notes, pad_amp, 80, false }
     end
 
-    if pass == 2
+    if pass == 2 && !final_cut_bar
       in_thread do
         with_fx :pan, pan: 0.14 do
           post_primary_double_bar bar, 0.06
@@ -755,58 +953,87 @@ cue :section_post_bell_melody_only
   end
 end
 
-# 2:52-3:24: four increasingly dense layered passes.
+# 2:56-3:36: half-time, club drop, double-time peak, and deconstruction.
 cue :section_post_bell_layered
-(post_layered_bars / 4).times do |pass|
-  4.times do |bar|
-    chord_notes = remix_chords[bar]
-    final_bar = pass == 3 && bar == 3
-    layered_bar = (pass * 4) + bar
-    pan_width = pass == 3 ? 0.20 : 0.12
+post_layered_bars.times do |layered_bar|
+  bar_index = layered_bar % 4
+  chord_notes = remix_chords[bar_index]
+  beat_only = [16, 17].include?(layered_bar)
+  final_return_bar = layered_bar == 19
+  pan_width = layered_bar >= 12 ? 0.20 : 0.12
 
+  if beat_only
+    in_thread { beat_only_bar :filtered_kick, 0.03, false }
+  else
     in_thread do
       with_fx :pan, pan: -pan_width do
-        post_synth_bar bar, false
+        post_synth_bar bar_index, false, 4.0
       end
     end
     in_thread do
       with_fx :pan, pan: pan_width do
-        post_synth_bar bar, true
+        post_synth_bar bar_index, true, 4.0
       end
     end
     in_thread { post_bass_bar }
     in_thread { post_sub_bar }
-    in_thread { post_hihat_bar }
-    in_thread { post_drums_bar }
-    in_thread { post_effect_chord_bar bar, pass >= 1 }
 
-    drum_stage = pass >= 2 ? :climax : :club
-    in_thread { filter_house_drums_bar drum_stage, final_bar }
-
-    if pass >= 2
-      pad_amp = pass == 3 ? 0.10 : 0.08
-      stab_amp = pass == 3 ? 0.14 : 0.10
-      cutoff_value = pass == 3 ? 94 : 86
-      in_thread { remix_pad_bar chord_notes, pad_amp, cutoff_value, true }
-      in_thread { remix_stabs_bar chord_notes, stab_amp, cutoff_value + 4 }
+    unless final_return_bar
+      in_thread { post_effect_chord_bar bar_index, layered_bar >= 4 }
     end
 
-    if pass == 3
+    if layered_bar < 4
+      in_thread { half_time_drums_bar }
+    elsif layered_bar < 12
+      in_thread { post_hihat_bar }
+      in_thread { post_drums_bar }
+      in_thread { filter_house_drums_bar :club, false, 0.03 }
+    elsif layered_bar < 16
+      in_thread { post_hihat_bar }
+      in_thread { post_drums_bar }
+      in_thread { filter_house_drums_bar :climax, false, 0 }
+      in_thread { double_time_hats_bar }
+    elsif layered_bar == 18
+      in_thread { post_hihat_bar }
+      in_thread { post_drums_bar }
+      in_thread { filter_house_drums_bar :climax, false, 0 }
+      in_thread { double_time_hats_bar }
+    elsif final_return_bar
+      # Strip long and late percussion before the explicit silent bar.
+      in_thread { filter_house_drums_bar :climax, true, 0 }
+    end
+
+    full_peak_bar = (layered_bar >= 8 && layered_bar < 16) ||
+      layered_bar == 18
+    if full_peak_bar
+      pad_amp = layered_bar >= 12 ? 0.10 : 0.08
+      stab_amp = layered_bar >= 12 ? 0.14 : 0.10
+      cutoff_value = layered_bar >= 12 ? 94 : 86
+      in_thread { remix_pad_bar chord_notes, pad_amp, cutoff_value, true }
+      in_thread do
+        remix_stabs_bar chord_notes, stab_amp, cutoff_value + 4
+      end
+    end
+
+    if (layered_bar >= 12 && layered_bar < 16) || layered_bar == 18
       in_thread do
         with_fx :pan, pan: 0.14 do
-          post_primary_double_bar bar, 0.07
+          post_primary_double_bar bar_index, 0.07
         end
       end
     end
 
-    if [7, 15].include?(layered_bar)
-      in_thread { funk_micro_chop_bar 0.15 }
-    end
-    sleep 4
+    in_thread { funk_micro_chop_bar 0.15 } if layered_bar == 15
   end
+
+  sleep 4
 end
 
-# 3:24: one unobstructed final bell and its natural reverb tail.
+# 3:36-3:38: an explicit silent bar before the final strike.
+cue :section_final_stop
+silent_bar final_stop_beats
+
+# 3:38: one unobstructed bell; five beats allow its 4.5-beat release.
 cue :section_final_bell
 church_bell
 sleep 5
