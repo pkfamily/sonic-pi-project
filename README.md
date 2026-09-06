@@ -27,7 +27,9 @@ samples, and effects. They are not official transcriptions or releases.
 Recommended entry points:
 
 - Stable remix: [filter-house V2](tracks/aerodynamic/arrangements/aerodynamic_remix_v2_filter_house.rb)
-- Latest polished remix: [polished-arc V6](tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb)
+- Latest remix: [simple-lead-entry V8](tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb)
+- Lead-drop experiment: [lead-drop V7](tracks/aerodynamic/arrangements/aerodynamic_remix_v7_lead_drop.rb)
+- Polished-arc reference: [polished-arc V6](tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb)
 - Refined reference: [refined V5](tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb)
 - Cleanup reference: [cleanup V4](tracks/aerodynamic/arrangements/aerodynamic_remix_v4_cleanup.rb)
 - Timing experiment: [timing-focused V3](tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb)
@@ -58,12 +60,14 @@ tracks/
 | Cleanup remix V4 | [`aerodynamic_remix_v4_cleanup.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v4_cleanup.rb) | Cleans percussion density, alternates tonal support layers, and tailors the final decay and bell. |
 | Refined remix V5 | [`aerodynamic_remix_v5_refined.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb) | Strengthens the remix arc with staged layer handoffs, internal breakdowns, and a cleaner post-bell deconstruction. |
 | Polished-arc remix V6 | [`aerodynamic_remix_v6_polished_arc.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb) | Adds deterministic pocket, phrase filtering, and restrained stereo movement to V5's arrangement. |
+| Lead-drop remix V7 | [`aerodynamic_remix_v7_lead_drop.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v7_lead_drop.rb) | Rebuilds the final eight opening bars into a rising transition with a protected silent beat before the defining lead. |
+| Simple-lead-entry remix V8 | [`aerodynamic_remix_v8_simple_lead_entry.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb) | Replaces V7's EDM-style buildup with a four-bar subtraction, a dry truncated funk phrase, and over one beat of silence before the isolated lead. |
 
 The files in `studies/` are intentionally smaller. `lead_only.rb` is the
 approved lead reference, while `il_macquillage_fixed.rb` documents an earlier
 melodic and harmonic reconstruction experiment.
 
-## Latest V6 timeline
+## Latest V8 timeline
 
 At 120 BPM, the current polished arrangement uses this cue map:
 
@@ -85,7 +89,7 @@ At 120 BPM, the current polished arrangement uses this cue map:
 Check ordinary Ruby syntax first:
 
 ```sh
-ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb
+ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb
 ```
 
 On macOS with Sonic Pi installed in `/Applications`, run its actual pre-parser:
@@ -96,7 +100,7 @@ SP_ROOT='/Applications/Sonic Pi.app/Contents/Resources/app/server/ruby'
   -I"$SP_ROOT/lib" \
   -I"$SP_ROOT/vendor/kramdown-2.1.0/lib" \
   -e "require '$SP_ROOT/core'; require 'sonicpi/lang/core'; require 'sonicpi/preparser'; SonicPi::PreParser.preparse(File.read(ARGV.fetch(0)), SonicPi::Lang::Core.vec_fns); puts 'Sonic Pi pre-parser OK'" \
-  tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb
+  tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb
 ```
 
 In a restricted shell, Sonic Pi may warn that it cannot open its user debug
