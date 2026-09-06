@@ -23,7 +23,9 @@ samples, and effects. They are not official transcriptions or releases.
 Recommended entry points:
 
 - Stable remix: [filter-house V2](tracks/aerodynamic/arrangements/aerodynamic_remix_v2_filter_house.rb)
-- Latest experiment: [timing-focused V3](tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb)
+- Latest polished remix: [refined V5](tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb)
+- Cleanup reference: [cleanup V4](tracks/aerodynamic/arrangements/aerodynamic_remix_v4_cleanup.rb)
+- Timing experiment: [timing-focused V3](tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb)
 - Isolated comparison: [lead-only study](tracks/aerodynamic/studies/lead_only.rb)
 
 ## Project structure
@@ -48,14 +50,16 @@ tracks/
 | Progressive remix V1 | [`aerodynamic_remix_v1.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v1.rb) | Adds deterministic French-house layers to the timed foundation. |
 | Filter-house remix V2 | [`aerodynamic_remix_v2_filter_house.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v2_filter_house.rb) | Stable remix with progressive filtering, four-on-the-floor drums, and a protected lead solo. |
 | Timing remix V3 | [`aerodynamic_remix_v3_timing.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb) | Experimental arrangement with delayed, half-time, double-time, and silent transitions. |
+| Cleanup remix V4 | [`aerodynamic_remix_v4_cleanup.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v4_cleanup.rb) | Cleans percussion density, alternates tonal support layers, and tailors the final decay and bell. |
+| Refined remix V5 | [`aerodynamic_remix_v5_refined.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb) | Strengthens the remix arc with staged layer handoffs, internal breakdowns, and a cleaner post-bell deconstruction. |
 
 The files in `studies/` are intentionally smaller. `lead_only.rb` is the
 approved lead reference, while `il_macquillage_fixed.rb` documents an earlier
 melodic and harmonic reconstruction experiment.
 
-## V3 timeline
+## Latest V5 timeline
 
-At 120 BPM, the current experimental arrangement uses this cue map:
+At 120 BPM, the current polished arrangement uses this cue map:
 
 | Time | Section |
 |---|---|
@@ -67,7 +71,7 @@ At 120 BPM, the current experimental arrangement uses this cue map:
 | 2:24 | Transition bell |
 | 2:32–2:56 | Post-bell melody |
 | 2:56–3:36 | Post-bell rhythm |
-| 3:36–3:38 | Silent final bar |
+| 3:36–3:38 | Controlled A–D decay and one-second breath |
 | 3:38 | Final bell |
 
 ## Development and validation
@@ -75,7 +79,7 @@ At 120 BPM, the current experimental arrangement uses this cue map:
 Check ordinary Ruby syntax first:
 
 ```sh
-ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb
+ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb
 ```
 
 On macOS with Sonic Pi installed in `/Applications`, run its actual pre-parser:
@@ -86,7 +90,7 @@ SP_ROOT='/Applications/Sonic Pi.app/Contents/Resources/app/server/ruby'
   -I"$SP_ROOT/lib" \
   -I"$SP_ROOT/vendor/kramdown-2.1.0/lib" \
   -e "require '$SP_ROOT/core'; require 'sonicpi/lang/core'; require 'sonicpi/preparser'; SonicPi::PreParser.preparse(File.read(ARGV.fetch(0)), SonicPi::Lang::Core.vec_fns); puts 'Sonic Pi pre-parser OK'" \
-  tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb
+  tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb
 ```
 
 In a restricted shell, Sonic Pi may warn that it cannot open its user debug

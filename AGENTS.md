@@ -9,7 +9,11 @@ These instructions apply to the entire repository.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v2_filter_house.rb` is
   the stable Aerodynamic remix.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb` is the
-  latest arrangement and an experimental timing version.
+  experimental timing version.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v4_cleanup.rb` is the
+  cleanup reference.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb` is the
+  latest polished arrangement.
 - Preserve approved arrangements. Create a new standalone version for a
   substantial remix, timing experiment, or alternate mix.
 - Inspect both the target and its immediate predecessor before editing. Update
@@ -50,6 +54,10 @@ These instructions apply to the entire repository.
   suppression proved more reliable than attempts to stop uncontrolled loops.
 - V3 corrected a post-bell harmonic bar that could schedule notes beyond its
   four-beat boundary. Do not restore the overflowing timing logic.
+- V4 removes duplicate sixteenth-note hat layers and uses a dedicated,
+  lower-level final bell instead of the oversized opening-bell patch.
+- V5 strengthens the remix arc through staged layer handoffs and keeps the
+  last beat before the ending decay free of sounding events.
 
 ## Editing and Git safety
 
