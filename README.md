@@ -86,8 +86,7 @@ At 120 BPM, the current polished mix preserves V9's cue map:
 | 2:18–2:42 | Post-bell melody |
 | 2:42–3:18 | Post-bell rhythm and sparse exit |
 | 3:18–3:26 | Opening-groove callback |
-| 3:26–3:28 | Controlled A–D decay and one-second breath |
-| 3:28 | Final bell |
+| 3:26–3:28 | Controlled A–D decay and silent ending |
 
 ## Development and validation
 
