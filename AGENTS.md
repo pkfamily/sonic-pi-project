@@ -21,7 +21,9 @@ These instructions apply to the entire repository.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb`
   is the simple-lead-entry reference.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb`
-  is the latest arrangement and uses a shorter French-house re-edit structure.
+  is the structural re-edit reference.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb` is the
+  latest arrangement and applies warm, dynamic mix polish to V9.
 - Preserve approved arrangements. Create a new standalone version for a
   substantial remix, timing experiment, or alternate mix.
 - Inspect both the target and its immediate predecessor before editing. Update
@@ -76,6 +78,9 @@ These instructions apply to the entire repository.
 - V9 moves that protected lead entrance to beat 128, shortens the first layered
   lead stage to six bars, and reprises the four-bar subtraction before the
   ending decay. Keep its shortened transition bed clear of the post-bell cue.
+- V10 preserves V9's structure while lowering cumulative gain, tightening drum
+  sample envelopes, and reducing masking from doubles and support layers. Keep
+  the scoped output trim and avoid restoring per-bar melody compression.
 
 ## Editing and Git safety
 
