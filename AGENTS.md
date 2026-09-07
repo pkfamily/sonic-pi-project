@@ -80,7 +80,8 @@ These instructions apply to the entire repository.
   ending decay. Keep its shortened transition bed clear of the post-bell cue.
 - V10 preserves V9's structure while lowering cumulative gain, tightening drum
   sample envelopes, and reducing masking from doubles and support layers. Keep
-  the scoped output trim and avoid restoring per-bar melody compression.
+  the scoped output trim and avoid restoring per-bar melody compression. Its
+  final bell was deliberately removed; the A-D decay is now the ending.
 
 ## Editing and Git safety
 

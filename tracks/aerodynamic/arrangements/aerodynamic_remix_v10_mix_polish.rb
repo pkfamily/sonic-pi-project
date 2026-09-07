@@ -110,22 +110,6 @@ define :church_bell do
   end
 end
 
-# A darker, quieter ending strike. Opening and transition bells continue to
-# use the full church_bell voice above.
-define :final_church_bell do
-  with_fx :reverb, room: 0.9, damp: 0.48, mix: 0.48 do
-    with_fx :lpf, cutoff: 96 do
-      use_synth :sine
-      play :a2, attack: 0.01, release: 3.4, amp: 0.46
-      play :d3, attack: 0.01, release: 3.3, amp: 0.40
-
-      use_synth :pretty_bell
-      play_chord [:a2, :d3, :a3, :d4],
-        attack: 0.005, release: 3.4, amp: 0.56
-    end
-  end
-end
-
 # GP4 Melodie: exact notes/onsets with a dry clavinet-like articulation.
 # Context is :front in the opening and :under_lead when the groove returns.
 define :funk_melody_bar do |fill_bar, context, filter_stage, phrase_position|
@@ -832,7 +816,7 @@ end
 #   lead stage one 176 (1:28)    lead stage two 200 (1:40)
 #   transition bell 264 (2:12)   post melody 276 (2:18)
 #   post rhythm 324 (2:42)       funk callback 396 (3:18)
-#   final decay 412 (3:26)       final bell 416 (3:28)
+#   final decay 412 (3:26)       complete 416 (3:28)
 # -----------------------------------------------------------------------------
 
 opening_bell_bars = 8
@@ -1315,14 +1299,9 @@ opening_callback_bars.times do |bar|
   sleep 4
 end
 
-# 3:26-3:28: short A-D decay followed by one second of true silence.
+# 3:26-3:28: short A-D decay followed by a silent ending.
 cue :section_final_decay
 ending_decay_bar final_transition_beats
-
-# 3:28: one unobstructed bell; five beats allow its 3.8-beat release.
-cue :section_final_bell
-final_church_bell
-sleep 5
 
 cue :arrangement_complete
 end
