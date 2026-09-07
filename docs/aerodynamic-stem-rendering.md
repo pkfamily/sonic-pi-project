@@ -59,6 +59,32 @@ The renderer creates full-length files under `renders/aerodynamic_v10/` and a
 profile list, file sizes, and WAV SHA-256 hashes. Each run overwrites matching
 profile files.
 
+## Timing pitfall: disabled layers and `sleep`
+
+Every render profile must preserve the master timeline. A disabled helper may
+need to consume time when it is the only owner of a bar, but it must not add a
+second wait when its caller already advances the bar or section.
+
+For example, the opening-bell loop calls `church_bell` and then sleeps four
+beats. The disabled-profile branch of `church_bell` therefore must return
+immediately; using `return sleep 4` there doubled each opening-bell bar for
+non-`fx` profiles and shifted the later layers in the summed REAPER mix. The
+same rule applies to any helper called directly inside a timed loop.
+
+When adding a profile guard, first identify who owns the timeline:
+
+- A helper called directly by a loop that already sleeps: return immediately
+  when disabled.
+- A helper running as a complete bar/thread: consume the helper's full bar when
+  disabled, as its caller expects that helper to advance time.
+- A section helper with an explicit duration: preserve that duration exactly,
+  without also adding a caller-level wait.
+
+After changing a guard, regenerate all profiles rather than only the changed
+layer. Compare cue timestamps in the Sonic Pi log and listen to a direct sum of
+the regenerated WAVs before diagnosing REAPER timing. A stale summed render can
+make an already-fixed source appear to remain out of alignment.
+
 ## Verify a render
 
 Check that all stems have the same audio format and duration:
