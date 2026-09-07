@@ -110,7 +110,9 @@ define :drum_bar do |events|
 end
 
 define :church_bell do
-  return sleep 4 unless render_group_enabled? :fx
+  # The callers own the bar/section timing. Returning immediately here keeps
+  # disabled profiles aligned instead of adding a second four-beat wait.
+  return unless render_group_enabled? :fx
 
   with_fx :reverb, room: 1, damp: 0.45, mix: 0.55 do
     with_fx :lpf, cutoff: 105 do
