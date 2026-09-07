@@ -6,3 +6,6 @@
 *.swo
 *~
 .cache/
+.venv-sonic-pi-tool/
+tools/sonic-pi-tool.py
+renders/
