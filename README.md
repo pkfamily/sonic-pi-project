@@ -28,6 +28,7 @@ Recommended entry points:
 
 - Stable remix: [filter-house V2](tracks/aerodynamic/arrangements/aerodynamic_remix_v2_filter_house.rb)
 - Latest remix: [mix-polish V10](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb)
+- Stem-render reference: [V10 stems](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_stems.rb)
 - Structural reference: [structural re-edit V9](tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb)
 - Simple-transition reference: [simple-lead-entry V8](tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb)
 - Lead-drop experiment: [lead-drop V7](tracks/aerodynamic/arrangements/aerodynamic_remix_v7_lead_drop.rb)
@@ -66,6 +67,7 @@ tracks/
 | Simple-lead-entry remix V8 | [`aerodynamic_remix_v8_simple_lead_entry.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb) | Replaces V7's EDM-style buildup with a four-bar subtraction, a dry truncated funk phrase, and over one beat of silence before the isolated lead. |
 | Structural re-edit V9 | [`aerodynamic_remix_v9_structural_rework.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb) | Moves the lead forward, shortens symmetrical passages, tightens the bell transition, and reprises the opening groove before the final decay. |
 | Mix-polish V10 | [`aerodynamic_remix_v10_mix_polish.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb) | Preserves V9's structure while adding headroom, consistent drum envelopes, clearer low-end roles, softer supporting layers, and restrained stereo depth. |
+| V10 stem renderer | [`aerodynamic_remix_v10_stems.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_stems.rb) | Separate render-profile copy of V10 for aligned WAV export into a DAW; the approved V10 arrangement is unchanged. |
 
 The files in `studies/` are intentionally smaller. `lead_only.rb` is the
 approved lead reference, while `il_macquillage_fixed.rb` documents an earlier
@@ -114,6 +116,36 @@ log. The validation succeeds when the command still prints
 For arrangement changes, also calculate cumulative beats and cue timestamps.
 Static checks cannot reveal balance, timbre, or audible tail leakage, so every
 changed arrangement still needs a complete listening test inside Sonic Pi.
+
+### Automated V10 stem export
+
+See [the complete reproducible stem-rendering workflow](docs/aerodynamic-stem-rendering.md)
+for pinned versions, verification, REAPER import, and fork maintenance.
+
+The stem copy keeps every disabled layer's timeline intact and selects one
+render group at a time. With Sonic Pi installed:
+
+```sh
+ruby tools/render_aerodynamic_stems.rb
+```
+
+The aligned WAV files are written to `renders/aerodynamic_v10/`. To render
+only selected profiles, pass them as arguments, for example:
+
+```sh
+ruby tools/render_aerodynamic_stems.rb drums bass lead
+```
+
+The resulting WAV files are ready for REAPER: create a project at 120 BPM,
+import the files from `renders/aerodynamic_v10/`, and place them all at the
+same start position. The included manifest records the source and render
+hashes so the stem set can be verified or regenerated later.
+
+The exporter uses Sonic Pi's bundled `headless-record.rb` harness, which
+starts a matching headless daemon and writes the SuperSonic recording directly.
+It waits through the complete 3:28 arrangement plus a short safety margin
+before saving each WAV. Set `SONIC_PI_HEADLESS_RECORD` if Sonic Pi is installed
+somewhere other than `/Applications/Sonic Pi.app`.
 
 ## Attribution and status
 
