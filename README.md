@@ -120,7 +120,9 @@ changed arrangement still needs a complete listening test inside Sonic Pi.
 ### Automated V10 stem export
 
 See [the complete reproducible stem-rendering workflow](docs/aerodynamic-stem-rendering.md)
-for pinned versions, verification, REAPER import, and fork maintenance.
+for pinned versions, verification, REAPER import, and fork maintenance. See
+[the REAPER MCP setup and troubleshooting guide](docs/reaper-mcp-setup.md) for
+the Codex connection, Python configuration, and issues solved during setup.
 
 The stem copy keeps every disabled layer's timeline intact and selects one
 render group at a time. With Sonic Pi installed:
