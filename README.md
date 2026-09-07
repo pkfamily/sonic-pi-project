@@ -149,6 +149,12 @@ It waits through the complete 3:28 arrangement plus a short safety margin
 before saving each WAV. Set `SONIC_PI_HEADLESS_RECORD` if Sonic Pi is installed
 somewhere other than `/Applications/Sonic Pi.app`.
 
+See the [Aerodynamic REAPER retrospective](docs/aerodynamic-reaper-retrospective.md)
+for the experiments, timing investigation, mix attempts, and conclusions from
+the first production workflow. The [REAPER MCP setup and troubleshooting
+guide](docs/reaper-mcp-setup.md) documents the Codex connection and Python
+configuration.
+
 ## Attribution and status
 
 This is an educational fan project. "Aerodynamic" was written and released by
