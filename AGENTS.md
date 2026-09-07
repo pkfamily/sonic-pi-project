@@ -19,7 +19,9 @@ These instructions apply to the entire repository.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v7_lead_drop.rb` is the
   experimental lead-drop arrangement.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb`
-  is the latest arrangement and uses a restrained pre-lead layer subtraction.
+  is the simple-lead-entry reference.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb`
+  is the latest arrangement and uses a shorter French-house re-edit structure.
 - Preserve approved arrangements. Create a new standalone version for a
   substantial remix, timing experiment, or alternate mix.
 - Inspect both the target and its immediate predecessor before editing. Update
@@ -71,6 +73,9 @@ These instructions apply to the entire repository.
 - V8 replaces V7's EDM-style lead buildup with a four-bar subtraction. Preserve
   at least one full beat of silence before the isolated lead, and do not add a
   riser, accelerating drum roll, fake drop, or lead-downbeat impact there.
+- V9 moves that protected lead entrance to beat 128, shortens the first layered
+  lead stage to six bars, and reprises the four-bar subtraction before the
+  ending decay. Keep its shortened transition bed clear of the post-bell cue.
 
 ## Editing and Git safety
 

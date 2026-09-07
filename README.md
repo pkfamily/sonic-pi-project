@@ -27,7 +27,8 @@ samples, and effects. They are not official transcriptions or releases.
 Recommended entry points:
 
 - Stable remix: [filter-house V2](tracks/aerodynamic/arrangements/aerodynamic_remix_v2_filter_house.rb)
-- Latest remix: [simple-lead-entry V8](tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb)
+- Latest remix: [structural re-edit V9](tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb)
+- Simple-transition reference: [simple-lead-entry V8](tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb)
 - Lead-drop experiment: [lead-drop V7](tracks/aerodynamic/arrangements/aerodynamic_remix_v7_lead_drop.rb)
 - Polished-arc reference: [polished-arc V6](tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb)
 - Refined reference: [refined V5](tracks/aerodynamic/arrangements/aerodynamic_remix_v5_refined.rb)
@@ -62,34 +63,36 @@ tracks/
 | Polished-arc remix V6 | [`aerodynamic_remix_v6_polished_arc.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v6_polished_arc.rb) | Adds deterministic pocket, phrase filtering, and restrained stereo movement to V5's arrangement. |
 | Lead-drop remix V7 | [`aerodynamic_remix_v7_lead_drop.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v7_lead_drop.rb) | Rebuilds the final eight opening bars into a rising transition with a protected silent beat before the defining lead. |
 | Simple-lead-entry remix V8 | [`aerodynamic_remix_v8_simple_lead_entry.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb) | Replaces V7's EDM-style buildup with a four-bar subtraction, a dry truncated funk phrase, and over one beat of silence before the isolated lead. |
+| Structural re-edit V9 | [`aerodynamic_remix_v9_structural_rework.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb) | Moves the lead forward, shortens symmetrical passages, tightens the bell transition, and reprises the opening groove before the final decay. |
 
 The files in `studies/` are intentionally smaller. `lead_only.rb` is the
 approved lead reference, while `il_macquillage_fixed.rb` documents an earlier
 melodic and harmonic reconstruction experiment.
 
-## Latest V8 timeline
+## Latest V9 timeline
 
-At 120 BPM, the current polished arrangement uses this cue map:
+At 120 BPM, the current structural re-edit uses this cue map:
 
 | Time | Section |
 |---|---|
 | 0:00–0:16 | Four opening bells |
-| 0:16–1:12 | Extended opening groove |
-| 1:12–1:36 | Isolated lead |
-| 1:36–1:52 | Lead plus light groove |
-| 1:52–2:24 | Experimental full groove |
-| 2:24 | Transition bell |
-| 2:32–2:56 | Post-bell melody |
-| 2:56–3:36 | Post-bell rhythm |
-| 3:36–3:38 | Controlled A–D decay and one-second breath |
-| 3:38 | Final bell |
+| 0:16–1:04 | Opening groove and four-bar subtraction |
+| 1:04–1:28 | Isolated lead |
+| 1:28–1:40 | Lead plus light groove |
+| 1:40–2:12 | Full lead groove |
+| 2:12 | Transition bell |
+| 2:18–2:42 | Post-bell melody |
+| 2:42–3:18 | Post-bell rhythm and sparse exit |
+| 3:18–3:26 | Opening-groove callback |
+| 3:26–3:28 | Controlled A–D decay and one-second breath |
+| 3:28 | Final bell |
 
 ## Development and validation
 
 Check ordinary Ruby syntax first:
 
 ```sh
-ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb
+ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb
 ```
 
 On macOS with Sonic Pi installed in `/Applications`, run its actual pre-parser:
@@ -100,7 +103,7 @@ SP_ROOT='/Applications/Sonic Pi.app/Contents/Resources/app/server/ruby'
   -I"$SP_ROOT/lib" \
   -I"$SP_ROOT/vendor/kramdown-2.1.0/lib" \
   -e "require '$SP_ROOT/core'; require 'sonicpi/lang/core'; require 'sonicpi/preparser'; SonicPi::PreParser.preparse(File.read(ARGV.fetch(0)), SonicPi::Lang::Core.vec_fns); puts 'Sonic Pi pre-parser OK'" \
-  tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb
+  tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb
 ```
 
 In a restricted shell, Sonic Pi may warn that it cannot open its user debug
