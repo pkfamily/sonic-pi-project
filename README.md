@@ -15,6 +15,10 @@ releases.
 
 ## Listen online
 
+<a href="https://brucewayneisbatman.org/sonic-pi-project/">
+  <img src="assets/sonic-pi-media-player.png" alt="Sonic Pi media player with Daft Punk pixel art, Aerodynamic V10, and Something About Us tracks" width="100%">
+</a>
+
 Listen to the published [Sonic Pi media player](https://brucewayneisbatman.org/sonic-pi-project/).
 The repository also includes the player source as a static [GitHub Pages
 listening site](docs/), currently featuring compact browser renders of the
