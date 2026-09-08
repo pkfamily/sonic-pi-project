@@ -74,7 +74,10 @@ and source material in `references/`. Rendered audio for the website belongs in
 The [V10 mix polish](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb)
 is the latest arrangement at 120 BPM, with earlier versions retained for
 comparison. See the complete [Aerodynamic arrangement history](docs/aerodynamic-arrangement-history.md)
-for the version table, derivation notes, and V10 timeline.
+for the version table, derivation notes, and V10 timeline. Its aligned stems
+were imported into REAPER and mixed there as part of the REAPER MCP production
+workflow; see the [Aerodynamic REAPER retrospective](docs/aerodynamic-reaper-retrospective.md)
+for the mix experiments and conclusions.
 
 ## Something About Us reconstructions
 
