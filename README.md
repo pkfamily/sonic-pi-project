@@ -15,9 +15,10 @@ releases.
 
 ## Listen online
 
-The repository includes a static [GitHub Pages listening site](docs/). It
-currently features compact browser renders of the latest Aerodynamic mix and
-the Something About Us GP5 reconstruction.
+Listen to the published [Sonic Pi media player](https://brucewayneisbatman.org/sonic-pi-project/).
+The repository also includes the player source as a static [GitHub Pages
+listening site](docs/), currently featuring compact browser renders of the
+latest Aerodynamic mix and the Something About Us GP5 reconstruction.
 
 To publish it, open **Settings → Pages** on GitHub, choose **Deploy from a
 branch**, then select the default branch and the `/docs` folder.
