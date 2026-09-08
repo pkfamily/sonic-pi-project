@@ -7,6 +7,7 @@ const current = document.querySelector('#current-time');
 const duration = document.querySelector('#duration');
 const title = document.querySelector('#track-title');
 const subtitle = document.querySelector('#track-subtitle');
+const artNumber = document.querySelector('#art-number');
 
 const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 const setPlaying = () => { play.textContent = audio.paused ? '▶' : 'Ⅱ'; play.setAttribute('aria-label', audio.paused ? 'Play' : 'Pause'); };
@@ -21,6 +22,6 @@ volume.addEventListener('input', () => { audio.volume = volume.value; audio.mute
 mute.addEventListener('click', () => { audio.muted = !audio.muted; mute.textContent = audio.muted ? '×' : '⌕'; });
 document.querySelectorAll('.track-row').forEach((row) => row.addEventListener('click', () => {
   document.querySelectorAll('.track-row').forEach((item) => item.classList.remove('is-active'));
-  row.classList.add('is-active'); audio.src = row.dataset.src; title.textContent = row.dataset.title; subtitle.textContent = row.dataset.subtitle; audio.play();
+  row.classList.add('is-active'); audio.src = row.dataset.src; title.textContent = row.dataset.title; subtitle.textContent = row.dataset.subtitle; artNumber.textContent = row.dataset.number; audio.play();
 }));
 audio.volume = volume.value;

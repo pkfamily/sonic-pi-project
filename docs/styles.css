@@ -1,10 +1,10 @@
 :root {
   --ink: #e9ede4;
-  --muted: #a8b0a7;
-  --line: rgba(233, 237, 228, 0.2);
+  --muted: #929b91;
+  --line: #2b3330;
   --accent: #d9f36b;
   --bg: #101313;
-  --card: rgba(23, 28, 26, 0.92);
+  --card: #171c1a;
 }
 
 * {
@@ -13,15 +13,7 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
-  background-color: var(--bg);
-  background-image:
-    linear-gradient(rgba(16, 19, 19, 0.72), rgba(16, 19, 19, 0.82)),
-    url("./assets/301240-8bit.png");
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
-  background-size: cover, contain;
-  background-attachment: fixed, fixed;
+  background: var(--bg);
   color: var(--ink);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   line-height: 1.5;
@@ -88,38 +80,28 @@ h1 em {
   background: var(--card);
   border: 1px solid var(--line);
   margin-bottom: 66px;
-  backdrop-filter: blur(4px);
 }
 
 .art {
+  width: 290px;
   min-height: 290px;
+  aspect-ratio: 1;
+  align-self: center;
   position: relative;
   overflow: hidden;
-  background: #c4d94e;
-  color: #101313;
-  padding: 20px;
-  font-size: 12px;
+  background: #101313 url("./assets/301240-album-art.png") center / cover no-repeat;
 }
 
-.orb {
+.art-number {
   position: absolute;
-  width: 210px;
-  height: 210px;
-  border-radius: 50%;
-  background: #101313;
-  right: -43px;
-  bottom: -55px;
-  box-shadow: -30px -25px 0 -12px #52632c;
-}
-
-.grid {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, transparent 49.7%, #101313 50%, transparent 50.3%),
-    linear-gradient(transparent 49.7%, #101313 50%, transparent 50.3%);
-  background-size: 42px 42px;
-  opacity: 0.2;
+  left: 16px;
+  bottom: 16px;
+  padding: 5px 8px;
+  border: 1px solid rgba(217, 243, 107, 0.5);
+  background: rgba(16, 19, 19, 0.82);
+  color: var(--accent);
+  font-size: 11px;
+  line-height: 1;
 }
 
 .player-main {
@@ -209,18 +191,17 @@ input[type="range"] {
   gap: 18px;
   text-align: left;
   color: var(--ink);
-  background: rgba(16, 19, 19, 0.6);
+  background: transparent;
   border: 0;
   border-bottom: 1px solid var(--line);
   padding: 21px 8px;
   cursor: pointer;
   font: inherit;
-  backdrop-filter: blur(2px);
 }
 
 .track-row:hover,
 .track-row.is-active {
-  background: rgba(27, 34, 31, 0.94);
+  background: #1b221f;
 }
 
 .track-number,
@@ -285,7 +266,11 @@ footer {
   }
 
   .art {
+    width: 100%;
+    height: 210px;
     min-height: 210px;
+    aspect-ratio: auto;
+    background-position: center top;
   }
 
   .player-main {
