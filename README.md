@@ -38,6 +38,23 @@ Recommended entry points:
 - Timing experiment: [timing-focused V3](tracks/aerodynamic/arrangements/aerodynamic_remix_v3_timing.rb)
 - Isolated comparison: [lead-only study](tracks/aerodynamic/studies/lead_only.rb)
 
+## GitHub Pages listening site
+
+The repository includes a static music player in [`docs/`](docs/). To publish
+it from GitHub, open **Settings → Pages**, choose **Deploy from a branch**, then
+select the default branch and the `/docs` folder. The first player track uses a
+small 44.1 kHz mono WAV in [`docs/audio/`](docs/audio/); the full-resolution
+stereo render remains in the local `renders/` workflow.
+
+When adding a finished render, place its web-sized audio file in `docs/audio/`
+and add a track row in `docs/index.html`. A browser-friendly WAV can be made
+with macOS `afconvert`, for example:
+
+```sh
+afconvert renders/aerodynamic_v10/aerodynamic_v10_full.wav \
+  -o docs/audio/aerodynamic_v10_web.wav -f WAVE -d LEI16@44100 -c 1
+```
+
 ## Project structure
 
 ```text
@@ -48,6 +65,11 @@ tracks/
 │   └── references/    # GP4, MIDI, and saved research material
 └── midnight_club/     # Separate Sonic Pi track
 ```
+
+The repository also contains a GP4-based reconstruction of Daft Punk's
+“Something About Us” in [`tracks/something_about_us/`](tracks/something_about_us/).
+The longer GP5-based comparison arrangement is
+[`something_about_us_gp5_master.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_master.rb).
 
 ## Aerodynamic arrangement history
 
@@ -68,6 +90,12 @@ tracks/
 | Structural re-edit V9 | [`aerodynamic_remix_v9_structural_rework.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb) | Moves the lead forward, shortens symmetrical passages, tightens the bell transition, and reprises the opening groove before the final decay. |
 | Mix-polish V10 | [`aerodynamic_remix_v10_mix_polish.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb) | Preserves V9's structure while adding headroom, consistent drum envelopes, clearer low-end roles, softer supporting layers, and restrained stereo depth. |
 | V10 stem renderer | [`aerodynamic_remix_v10_stems.rb`](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_stems.rb) | Separate render-profile copy of V10 for aligned WAV export into a DAW; the approved V10 arrangement is unchanged. |
+
+| Something About Us GP4 reconstruction | [`something_about_us_gp4_master.rb`](tracks/something_about_us/arrangements/something_about_us_gp4_master.rb) | Finite five-track transcription generated from the Guitar Pro 4 reference. |
+| Something About Us GP5 reconstruction | [`something_about_us_gp5_master.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_master.rb) | Finite seven-track, 104-measure transcription generated from the Guitar Pro 5 reference. |
+| Something About Us GP5 audition | [`something_about_us_gp5_audition.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_audition.rb) | GP5 reference copy with per-layer mute switches and entry messages for auditioning. |
+| Something About Us GP5 compact audition | [`something_about_us_gp5_audition_compact.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_audition_compact.rb) | Pattern-compacted audition copy with finite repeated-bar expansion and unchanged GP5 note data. |
+| Something About Us no-repeat comparison | [`something_about_us_gp5_no_repeat_melody.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_no_repeat_melody.rb) | Experimental GP5 copy that suppresses short adjacent same-pitch re-attacks in the Piano Melodia layer. |
 
 The files in `studies/` are intentionally smaller. `lead_only.rb` is the
 approved lead reference, while `il_macquillage_fixed.rb` documents an earlier
