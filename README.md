@@ -71,6 +71,11 @@ The repository also contains a GP4-based reconstruction of Daft Punk's
 The longer GP5-based comparison arrangement is
 [`something_about_us_gp5_master.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_master.rb).
 
+The website includes a compact browser render of the complete GP5 arrangement:
+[`something_about_us_gp5_web.wav`](docs/audio/something_about_us_gp5_web.wav).
+The archival 24-bit stereo render is kept in the ignored local
+`renders/something_about_us_gp5/` directory.
+
 ## Aerodynamic arrangement history
 
 | Version | File | Purpose |
@@ -95,6 +100,7 @@ The longer GP5-based comparison arrangement is
 | Something About Us GP5 reconstruction | [`something_about_us_gp5_master.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_master.rb) | Finite seven-track, 104-measure transcription generated from the Guitar Pro 5 reference. |
 | Something About Us GP5 audition | [`something_about_us_gp5_audition.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_audition.rb) | GP5 reference copy with per-layer mute switches and entry messages for auditioning. |
 | Something About Us GP5 compact audition | [`something_about_us_gp5_audition_compact.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_audition_compact.rb) | Pattern-compacted audition copy with finite repeated-bar expansion and unchanged GP5 note data. |
+| Something About Us GP5 pattern audition | [`something_about_us_gp5_audition_compact_v2.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_audition_compact_v2.rb) | Sequence-based audition copy that stores each unique bar once and reconstructs all 104 measures by index. |
 | Something About Us no-repeat comparison | [`something_about_us_gp5_no_repeat_melody.rb`](tracks/something_about_us/arrangements/something_about_us_gp5_no_repeat_melody.rb) | Experimental GP5 copy that suppresses short adjacent same-pitch re-attacks in the Piano Melodia layer. |
 
 The files in `studies/` are intentionally smaller. `lead_only.rb` is the
