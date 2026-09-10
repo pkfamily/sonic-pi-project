@@ -23,7 +23,10 @@ These instructions apply to the entire repository.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb`
   is the structural re-edit reference.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb` is the
-  latest arrangement and applies warm, dynamic mix polish to V9.
+  mix-polished reference and latest fully built-in arrangement.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb` is
+  the latest arrangement; it uses the local FreePats clean-guitar multisample
+  for the recurring funk melody and removes the supplemental `:dpulse` stabs.
 - Preserve approved arrangements. Create a new standalone version for a
   substantial remix, timing experiment, or alternate mix.
 - Inspect both the target and its immediate predecessor before editing. Update
@@ -82,6 +85,9 @@ These instructions apply to the entire repository.
   sample envelopes, and reducing masking from doubles and support layers. Keep
   the scoped output trim and avoid restoring per-bar melody compression. Its
   final bell was deliberately removed; the A-D decay is now the ending.
+- V11 preserves V10's 416-beat structure and protected silences. Keep its
+  sampled lead-entry releases short, retain deterministic sample selection,
+  and do not restore the rejected `:dpulse` chord-stab layer.
 
 ## Editing and Git safety
 

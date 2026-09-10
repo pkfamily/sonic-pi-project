@@ -1,7 +1,7 @@
 # Aerodynamic arrangement history
 
 The arrangements below document the progression from the initial hand-built
-study to the current V10 mix. Approved arrangements remain available for
+study to the current V11 mix. Approved arrangements remain available for
 comparison; substantial remixes and alternate mixes use standalone files.
 
 | Version | Purpose |
@@ -20,11 +20,12 @@ comparison; substantial remixes and alternate mixes use standalone files.
 | [Simple-lead-entry remix V8](../tracks/aerodynamic/arrangements/aerodynamic_remix_v8_simple_lead_entry.rb) | Uses a four-bar subtraction and a dry, truncated funk phrase before the lead. |
 | [Structural re-edit V9](../tracks/aerodynamic/arrangements/aerodynamic_remix_v9_structural_rework.rb) | Moves the lead forward and reprises the opening groove before the decay. |
 | [Mix-polish V10](../tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb) | Preserves V9's structure with more headroom, clearer low-end roles, and softer support layers. |
+| [Clean-guitar V11](../tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb) | Replaces the recurring funk synth with the FreePats clean-guitar multisample and removes the supplemental `:dpulse` stabs. |
 | [V10 stem renderer](../tracks/aerodynamic/arrangements/aerodynamic_remix_v10_stems.rb) | Render-profile copy for aligned WAV export; the approved V10 arrangement is unchanged. |
 
-## V10 timeline
+## V11 timeline
 
-At 120 BPM, V10 runs for 3:28 and follows this cue map:
+At 120 BPM, V11 preserves V10's 3:28 cue map:
 
 | Time | Section |
 |---|---|
@@ -39,6 +40,8 @@ At 120 BPM, V10 runs for 3:28 and follows this cue map:
 | 3:18–3:26 | Opening-groove callback |
 | 3:26–3:28 | Controlled A–D decay and silent ending |
 
-The V10 arrangement preserves the structural and timing safeguards established
-in V9: a protected isolated lead entrance, clear post-bell transition, and a
-silent ending after the A–D decay. Its final bell was deliberately removed.
+V11 preserves the structural and timing safeguards established in V10: a
+protected isolated lead entrance, clear post-bell transition, and a silent
+ending after the A–D decay. Its final bell remains deliberately removed. V10
+remains the latest fully built-in arrangement and the source of the existing
+aligned stem exports.

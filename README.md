@@ -16,8 +16,11 @@ releases.
 ## Listen online
 
 <a href="https://brucewayneisbatman.org/sonic-pi-project/">
-  <img src="assets/sonic-pi-media-player.png" alt="Sonic Pi media player with Daft Punk pixel art, Aerodynamic V10, and Something About Us tracks" width="100%">
+  <img src="assets/sonic-pi-media-player.png" alt="Historical V10 concept for the Sonic Pi media player" width="100%">
 </a>
+
+The image above is an earlier V10 player concept; the live player reflects the
+current published mixes.
 
 Listen to the published [Sonic Pi media player](https://brucewayneisbatman.org/sonic-pi-project/).
 The repository also includes the player source as a static [GitHub Pages
@@ -41,7 +44,8 @@ branch**, then select the default branch and the `/docs` folder.
 
 Recommended entry points:
 
-- [Aerodynamic V10 mix polish](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb)
+- [Aerodynamic V11 clean guitar](tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb)
+- [Aerodynamic clean-guitar opening groove](tracks/aerodynamic/studies/opening_groove_clean_guitar_excerpt.rb)
 - [Something About Us GP5 master](tracks/something_about_us/arrangements/something_about_us_gp5_master.rb)
 - [Something About Us GP5 audition](tracks/something_about_us/arrangements/something_about_us_gp5_audition.rb)
 - [Aerodynamic lead-only study](tracks/aerodynamic/studies/lead_only.rb)
@@ -67,17 +71,32 @@ tools/                 # Reproducible render and manifest scripts
 Complete tracks belong in `arrangements/`, isolated experiments in `studies/`,
 and source material in `references/`. Rendered audio for the website belongs in
 `docs/audio/`; full-resolution local renders remain under the ignored
-`renders/` directory.
+`renders/` directory. Only finished, web-sized listening copies belong in
+`docs/audio/`; stems, full-resolution masters, and A/B renders must remain in
+`renders/` so they do not enter Git history.
+
+The [Aerodynamic studies index](tracks/aerodynamic/studies/README.md) records
+which isolated experiments were selected, retained for comparison, or rejected.
 
 ## Aerodynamic arrangements
 
-The [V10 mix polish](tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb)
-is the latest arrangement at 120 BPM, with earlier versions retained for
-comparison. See the complete [Aerodynamic arrangement history](docs/aerodynamic-arrangement-history.md)
-for the version table, derivation notes, and V10 timeline. Its aligned stems
-were imported into REAPER and mixed there as part of the REAPER MCP production
-workflow; see the [Aerodynamic REAPER retrospective](docs/aerodynamic-reaper-retrospective.md)
+The [V11 clean-guitar mix](tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb)
+is the latest arrangement at 120 BPM. It preserves V10's structure while
+replacing the recurring synthesized funk melody with the local FreePats
+multisample and removing the `:dpulse` chord stabs. Install the sample pack as
+documented in [the opening-groove sample guide](docs/aerodynamic-opening-groove-samples.md).
+See the complete [Aerodynamic arrangement history](docs/aerodynamic-arrangement-history.md)
+for the version table, derivation notes, and timeline.
+
+V10 remains the latest fully built-in and stem-rendered version. Its aligned
+stems were imported into REAPER and mixed there as part of the REAPER MCP
+production workflow; see the [Aerodynamic REAPER retrospective](docs/aerodynamic-reaper-retrospective.md)
 for the mix experiments and conclusions.
+
+The [clean-guitar opening-groove excerpt](tracks/aerodynamic/studies/opening_groove_clean_guitar_excerpt.rb)
+outputs only V10's twenty active groove bars, replacing the synthesized main
+funk line with the local FreePats multisample documented in
+`docs/aerodynamic-opening-groove-samples.md`.
 
 ## Something About Us reconstructions
 
@@ -92,7 +111,7 @@ compact pattern storage; their GP5 note data is unchanged.
 Check ordinary Ruby syntax first:
 
 ```sh
-ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb
+ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb
 ```
 
 With Sonic Pi installed in `/Applications`, run the actual pre-parser:
@@ -103,7 +122,7 @@ SP_ROOT='/Applications/Sonic Pi.app/Contents/Resources/app/server/ruby'
   -I"$SP_ROOT/lib" \
   -I"$SP_ROOT/vendor/kramdown-2.1.0/lib" \
   -e "require '$SP_ROOT/core'; require 'sonicpi/lang/core'; require 'sonicpi/preparser'; SonicPi::PreParser.preparse(File.read(ARGV.fetch(0)), SonicPi::Lang::Core.vec_fns); puts 'Sonic Pi pre-parser OK'" \
-  tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb
+  tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb
 ```
 
 Static checks cannot reveal balance, timbre, or audible tail leakage. Listen to

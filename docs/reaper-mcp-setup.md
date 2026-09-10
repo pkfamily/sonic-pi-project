@@ -10,8 +10,8 @@ Aerodynamic stem-mixing workflow.
 - REAPER MCP fork: <https://github.com/pkfamily/reaper-mcp>
 - Compatibility branch: `fix-reaper-api-compatibility`
 - Compatibility commit: `68f995d5372ddcb8e7b60bfc4d94d4c9495cf006`
-- Local checkout: `/Users/poonv/Downloads/Repos/reaper-mcp`
-- MCP virtual environment: `/Users/poonv/Downloads/Repos/reaper-mcp/venv`
+- Example local checkout: `~/Downloads/Repos/reaper-mcp`
+- MCP virtual environment: `<reaper-mcp-checkout>/venv`
 
 The compatibility branch fixes project time-signature handling, explicit
 project saving, and native REAPER track volume, pan, mute, and solo access.
@@ -24,7 +24,7 @@ is recommended for the setup because the installed `python-reapy` release has
 configuration problems under Python 3.14.
 
 ```sh
-cd /Users/poonv/Downloads/Repos
+cd ~/Downloads/Repos
 git clone git@github.com:pkfamily/reaper-mcp.git
 cd reaper-mcp
 git switch fix-reaper-api-compatibility
@@ -35,7 +35,7 @@ venv/bin/python -m pip install -e .
 The server command is:
 
 ```text
-/Users/poonv/Downloads/Repos/reaper-mcp/venv/bin/reaper-mcp-server
+<reaper-mcp-checkout>/venv/bin/reaper-mcp-server
 ```
 
 ## Configure Python in REAPER
@@ -70,7 +70,7 @@ following command enables Python, adds the HTTP interface on port `2307`,
 registers the activation script, and stores its action ID:
 
 ```sh
-cd /Users/poonv/Downloads/Repos/reaper-mcp
+cd ~/Downloads/Repos/reaper-mcp
 venv/bin/python -c 'from reapy.config.resource_path import get_resource_path; from reapy.config.config import enable_python, add_web_interface, add_reascript, set_ext_state, get_activate_reapy_server_path; p=get_resource_path(detect_portable_install=False); enable_python(p); add_web_interface(p); a=add_reascript(p,get_activate_reapy_server_path()); set_ext_state("reapy","activate_reapy_server",a,p); print("configured",p,a)'
 ```
 
@@ -84,7 +84,7 @@ venv/bin/python -c 'import reapy; print(reapy.get_projects())'
 
 ```sh
 codex mcp add reaper -- \
-  /Users/poonv/Downloads/Repos/reaper-mcp/venv/bin/reaper-mcp-server
+  /absolute/path/to/reaper-mcp/venv/bin/reaper-mcp-server
 codex mcp get reaper
 ```
 
