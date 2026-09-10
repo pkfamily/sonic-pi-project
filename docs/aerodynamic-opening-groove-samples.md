@@ -4,6 +4,104 @@ This documents the local-only sample sources used by the opening-groove
 multisample studies. The audio files are deliberately ignored by Git and are
 not redistributed with this repository.
 
+## Reproduce V11 from a fresh clone
+
+The commands below are tested on macOS with Sonic Pi v5 installed in
+`/Applications`. They require Git and the macOS-provided `curl`, `shasum`, and
+`bsdtar` tools.
+
+### 1. Clone the project
+
+```sh
+git clone https://github.com/pkfamily/sonic-pi-project.git
+cd sonic-pi-project
+sonic_pi_project_root="$PWD"
+```
+
+Keep this terminal open: the remaining commands use
+`$sonic_pi_project_root` to locate the clone.
+
+### 2. Download and install the guitar samples
+
+The archive is downloaded into a temporary directory, verified, and extracted
+into the ignored local-sample directory. It does not need to be copied into Git.
+
+```sh
+mkdir -p \
+  "$sonic_pi_project_root/tracks/aerodynamic/references/local_samples/electric_guitar"
+
+guitar_download_dir="$(mktemp -d /tmp/aerodynamic-guitar.XXXXXX)"
+guitar_archive="$guitar_download_dir/EGuitarFSBS-clean-SFZ+FLAC-20260807.7z"
+
+curl -fL \
+  -o "$guitar_archive" \
+  'https://github.com/freepats/electric-guitar-FSBS-clean/releases/download/2026-08-07/EGuitarFSBS-clean-SFZ%2BFLAC-20260807.7z'
+
+printf '%s  %s\n' \
+  'a929a3cbfc8289e325be56dab49f5fd560bbc3995c40b69f8f05caee380e8be3' \
+  "$guitar_archive" | shasum -a 256 -c -
+
+bsdtar -xf "$guitar_archive" \
+  -C "$sonic_pi_project_root/tracks/aerodynamic/references/local_samples/electric_guitar"
+```
+
+A successful checksum reports `OK`. The arrangement expects this directory:
+
+```text
+tracks/aerodynamic/references/local_samples/electric_guitar/
+  EGuitarFSBS-clean SFZ+FLAC-20260807/samples/bridge/
+```
+
+### 3. Run the complete arrangement in Sonic Pi
+
+Quit Sonic Pi first if it is already open; macOS only applies `--env` when it
+launches a new application process. Copy V11, launch Sonic Pi with the clone
+path, paste into a buffer, and press **Run**:
+
+```sh
+pbcopy < \
+  "$sonic_pi_project_root/tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb"
+
+open -a "Sonic Pi" \
+  --env "SONIC_PI_PROJECT_ROOT=$sonic_pi_project_root"
+```
+
+V11 validates and preloads its sixteen required guitar recordings before the
+arrangement begins. A `Missing clean-guitar sample` error means the project
+root or extracted directory does not match the paths above.
+
+### 4. Render the complete song from the command line
+
+The optional headless workflow records the 3:28 arrangement plus a short engine
+tail, producing a 48 kHz, 24-bit stereo WAV under the ignored `renders/`
+directory:
+
+```sh
+mkdir -p "$sonic_pi_project_root/renders/aerodynamic_v11"
+
+SONIC_PI_PROJECT_ROOT="$sonic_pi_project_root" \
+ruby "$sonic_pi_project_root/tools/sonic_pi_headless_record.rb" \
+  -o "$sonic_pi_project_root/renders/aerodynamic_v11/aerodynamic_remix_v11_clean_guitar.wav" \
+  -d 212 \
+  -f "$sonic_pi_project_root/tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb"
+```
+
+If Sonic Pi is installed somewhere other than `/Applications`, set
+`SONIC_PI_APP_ROOT` as described in the
+[stem-rendering guide](aerodynamic-stem-rendering.md#requirements).
+
+### Troubleshooting and other platforms
+
+- If checksum verification fails, discard the temporary download and fetch it
+  again before extracting anything.
+- If the expected `samples/bridge/` directory is nested one level deeper or is
+  absent, remove that extraction and rerun the exact `bsdtar` command above.
+- If Sonic Pi was already running, quit it and rerun the `open --env` command so
+  the application receives `SONIC_PI_PROJECT_ROOT`.
+- Linux and Windows use the same `SONIC_PI_PROJECT_ROOT` value and extracted
+  directory layout. Adapt the archive extraction and environment-variable
+  syntax for the local shell; the commands above are verified only on macOS.
+
 ## Clean electric guitar study
 
 The clavinet implementation proved that the multisample approach works, but
@@ -26,28 +124,6 @@ The selected source is FreePats Electric Guitar FSBS Clean #1:
 - Format: processed clean electric guitar, stereo 48 kHz, 24-bit FLAC
 - Mapping: two recorded velocity layers and four alternate takes per region
 - License: Creative Commons CC0 1.0 public-domain dedication
-
-### Local installation
-
-From the repository root:
-
-```sh
-mkdir -p tracks/aerodynamic/references/local_samples/electric_guitar
-guitar_download_dir="$(mktemp -d /tmp/aerodynamic-guitar.XXXXXX)"
-guitar_archive="$guitar_download_dir/EGuitarFSBS-clean-SFZ+FLAC-20260807.7z"
-curl -fL \
-  -o "$guitar_archive" \
-  'https://github.com/freepats/electric-guitar-FSBS-clean/releases/download/2026-08-07/EGuitarFSBS-clean-SFZ%2BFLAC-20260807.7z'
-shasum -a 256 "$guitar_archive"
-bsdtar -xf "$guitar_archive" \
-  -C tracks/aerodynamic/references/local_samples/electric_guitar
-```
-
-The sample-backed files expect the extracted
-`EGuitarFSBS-clean SFZ+FLAC-20260807/samples/bridge/` directory. If the
-repository is not at `~/Downloads/Repos/sonic-pi-project`, set
-`SONIC_PI_PROJECT_ROOT` to its absolute path before launching Sonic Pi or the
-headless renderer.
 
 ### Selected guitar mappings
 

@@ -85,6 +85,9 @@ is the latest arrangement at 120 BPM. It preserves V10's structure while
 replacing the recurring synthesized funk melody with the local FreePats
 multisample and removing the `:dpulse` chord stabs. Install the sample pack as
 documented in [the opening-groove sample guide](docs/aerodynamic-opening-groove-samples.md).
+For a new checkout, follow the complete
+[V11 from-scratch walkthrough](docs/aerodynamic-opening-groove-samples.md#reproduce-v11-from-a-fresh-clone)
+to download, verify, install, run, and optionally render the arrangement.
 See the complete [Aerodynamic arrangement history](docs/aerodynamic-arrangement-history.md)
 for the version table, derivation notes, and timeline.
 
