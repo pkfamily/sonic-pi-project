@@ -15,6 +15,10 @@ questions without changing an approved full-track version.
 
 - `layered_lead_builtin.rb` tests built-in synth layering around the approved
   lead without replacing it.
+- `lead_distorted_guitar_full_arc.rb` replaces the complete 1:04-2:12 lead arc
+  with the local FreePats Distorted #2 multisample for a sample-only audition.
+- `lead_distorted_guitar_zawa_layer.rb` adds a restrained, short `:zawa`
+  transient to that same sample lead for a level-matched A/B audition.
 
 ## Rejected or superseded studies
 

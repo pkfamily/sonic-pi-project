@@ -44,11 +44,13 @@ branch**, then select the default branch and the `/docs` folder.
 
 Recommended entry points:
 
-- [Aerodynamic V11 clean guitar](tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb)
+- [Aerodynamic V12 guitar pulse](tracks/aerodynamic/arrangements/aerodynamic_remix_v12_guitar_pulse.rb)
 - [Aerodynamic clean-guitar opening groove](tracks/aerodynamic/studies/opening_groove_clean_guitar_excerpt.rb)
 - [Something About Us GP5 master](tracks/something_about_us/arrangements/something_about_us_gp5_master.rb)
 - [Something About Us GP5 audition](tracks/something_about_us/arrangements/something_about_us_gp5_audition.rb)
 - [Aerodynamic lead-only study](tracks/aerodynamic/studies/lead_only.rb)
+- [Aerodynamic distorted-guitar lead study](tracks/aerodynamic/studies/lead_distorted_guitar_full_arc.rb)
+- [Aerodynamic guitar/zawa lead study](tracks/aerodynamic/studies/lead_distorted_guitar_zawa_layer.rb)
 - [Midnight Club sketch](tracks/midnight_club/midnight_club.rb)
 
 ## Project structure
@@ -108,14 +110,14 @@ user-approved step.
 
 ## Aerodynamic arrangements
 
-The [V11 clean-guitar mix](tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb)
-is the latest arrangement at 120 BPM. It preserves V10's structure while
-replacing the recurring synthesized funk melody with the local FreePats
-multisample and removing the `:dpulse` chord stabs. Install the sample pack as
-documented in [the opening-groove sample guide](docs/aerodynamic-opening-groove-samples.md).
-For a new checkout, follow the complete
-[V11 from-scratch walkthrough](docs/aerodynamic-opening-groove-samples.md#reproduce-v11-from-a-fresh-clone)
-to download, verify, install, run, and optionally render the arrangement.
+The [V12 guitar-pulse mix](tracks/aerodynamic/arrangements/aerodynamic_remix_v12_guitar_pulse.rb)
+is the latest arrangement at 120 BPM. It preserves V11's clean-guitar groove
+and structure while replacing the main lead stack with the FreePats Distorted
+#2 multisample plus a restrained `:zawa` transient. The occasional `:dsaw`
+lead accents remain. A fresh checkout needs both the clean pack documented in
+the [V11 walkthrough](docs/aerodynamic-opening-groove-samples.md#reproduce-v11-from-a-fresh-clone)
+and the distorted pack documented in the
+[lead-sample guide](docs/aerodynamic-lead-samples.md).
 See the complete [Aerodynamic arrangement history](docs/aerodynamic-arrangement-history.md)
 for the version table, derivation notes, and timeline.
 
@@ -128,6 +130,12 @@ The [clean-guitar opening-groove excerpt](tracks/aerodynamic/studies/opening_gro
 outputs only V10's twenty active groove bars, replacing the synthesized main
 funk line with the local FreePats multisample documented in
 `docs/aerodynamic-opening-groove-samples.md`.
+
+The [guitar/zawa lead study](tracks/aerodynamic/studies/lead_distorted_guitar_zawa_layer.rb)
+isolates the complete 1:04-2:12 lead arc using the V12 lead voice. Its
+sample-only predecessor remains available for A/B comparison. Download and
+mapping details are in the
+[Aerodynamic lead-sample guide](docs/aerodynamic-lead-samples.md).
 
 ## Something About Us reconstructions
 
@@ -142,7 +150,7 @@ compact pattern storage; their GP5 note data is unchanged.
 Check ordinary Ruby syntax first:
 
 ```sh
-ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb
+ruby -c tracks/aerodynamic/arrangements/aerodynamic_remix_v12_guitar_pulse.rb
 ```
 
 With Sonic Pi installed in `/Applications`, run the actual pre-parser:
@@ -153,7 +161,7 @@ SP_ROOT='/Applications/Sonic Pi.app/Contents/Resources/app/server/ruby'
   -I"$SP_ROOT/lib" \
   -I"$SP_ROOT/vendor/kramdown-2.1.0/lib" \
   -e "require '$SP_ROOT/core'; require 'sonicpi/lang/core'; require 'sonicpi/preparser'; SonicPi::PreParser.preparse(File.read(ARGV.fetch(0)), SonicPi::Lang::Core.vec_fns); puts 'Sonic Pi pre-parser OK'" \
-  tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb
+  tracks/aerodynamic/arrangements/aerodynamic_remix_v12_guitar_pulse.rb
 ```
 
 Static checks cannot reveal balance, timbre, or audible tail leakage. Listen to

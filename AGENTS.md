@@ -25,8 +25,11 @@ These instructions apply to the entire repository.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v10_mix_polish.rb` is the
   mix-polished reference and latest fully built-in arrangement.
 - `tracks/aerodynamic/arrangements/aerodynamic_remix_v11_clean_guitar.rb` is
-  the latest arrangement; it uses the local FreePats clean-guitar multisample
+  the clean-guitar reference; it uses the local FreePats clean-guitar multisample
   for the recurring funk melody and removes the supplemental `:dpulse` stabs.
+- `tracks/aerodynamic/arrangements/aerodynamic_remix_v12_guitar_pulse.rb` is
+  the latest arrangement; it uses the local FreePats Distorted #2 multisample
+  with restrained `:zawa` reinforcement for the main lead.
 - Preserve approved arrangements. Create a new standalone version for a
   substantial remix, timing experiment, or alternate mix.
 - Inspect both the target and its immediate predecessor before editing. Update
@@ -88,6 +91,9 @@ These instructions apply to the entire repository.
 - V11 preserves V10's 416-beat structure and protected silences. Keep its
   sampled lead-entry releases short, retain deterministic sample selection,
   and do not restore the rejected `:dpulse` chord-stab layer.
+- V12 preserves V11's cue map and uses the approved guitar/zawa lead from
+  1:04-2:12. Keep its deterministic takes and short final-stutter releases,
+  retain the selected `:dsaw` accents, and do not restore the blade double.
 
 ## Editing and Git safety
 
