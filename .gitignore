@@ -9,3 +9,4 @@
 .venv-sonic-pi-tool/
 tools/sonic-pi-tool.py
 renders/
+tracks/aerodynamic/references/local_samples/
