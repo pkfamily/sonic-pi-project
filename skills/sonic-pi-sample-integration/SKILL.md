@@ -10,9 +10,11 @@ arrangement, and mixing as separate decisions.
 
 ## Find and assess a source
 
-1. Search the provider's authoritative project and release pages. Prefer
-   FreePats, but consider another SFZ source when its provenance and license are
-   clear.
+1. Search the provider's authoritative project and release pages. For FreePats,
+   start with the `freepats` GitHub organization, open the instrument repository
+   and its releases, then cross-check the matching FreePats instrument page and
+   repository license. Consider another SFZ source when its provenance and
+   license are clear.
 2. Record the project URL, exact asset URL, release/version, archive format and
    size, license name, and license URL. Do not infer permission from a free
    download or a public repository.
@@ -21,6 +23,10 @@ arrangement, and mixing as separate decisions.
 4. Compare relevant musical qualities before downloading a large pack: pitch
    coverage, articulations, velocity layers, alternate takes, sample format,
    recording quality, and expected processing.
+
+For a GitHub release, inspect its API metadata when available. Prefer the exact
+`browser_download_url`, asset byte size, and published `digest` over values
+inferred from a rendered release page or filename.
 
 Internet research does not authorize a download. Obtain any approval required
 by the active environment immediately before network or external filesystem
