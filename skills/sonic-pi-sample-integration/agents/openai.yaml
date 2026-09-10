@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sonic Pi Sample Integration"
+  short_description: "Find and integrate licensed SFZ samples"
+  default_prompt: "Use $sonic-pi-sample-integration to find a licensed sample pack and build a Sonic Pi study for this track."

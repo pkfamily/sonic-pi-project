@@ -6,6 +6,8 @@
 *.swo
 *~
 .cache/
+__pycache__/
+*.py[cod]
 .venv-sonic-pi-tool/
 tools/sonic-pi-tool.py
 renders/
