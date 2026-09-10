@@ -66,6 +66,7 @@ tracks/
 docs/                  # GitHub Pages player and web-sized audio
 renders/               # Ignored local full-resolution exports
 tools/                 # Reproducible render and manifest scripts
+skills/                # Reusable Codex workflows and deterministic helpers
 ```
 
 Complete tracks belong in `arrangements/`, isolated experiments in `studies/`,
@@ -77,6 +78,33 @@ and source material in `references/`. Rendered audio for the website belongs in
 
 The [Aerodynamic studies index](tracks/aerodynamic/studies/README.md) records
 which isolated experiments were selected, retained for comparison, or rejected.
+
+## Reusable sample integration skill
+
+The repository includes a
+[Sonic Pi sample integration skill](skills/sonic-pi-sample-integration/SKILL.md)
+for finding clearly licensed FreePats or SFZ libraries, safely downloading and
+inspecting them, and turning selected regions into reproducible Sonic Pi
+studies. It keeps raw audio in each track's ignored `references/local_samples/`
+directory and records source URLs, checksums, licensing, and pitch mappings in
+tracked documentation.
+
+Install the repository copy for personal Codex use with a symlink:
+
+```sh
+ln -s "$PWD/skills/sonic-pi-sample-integration" \
+  "$HOME/.codex/skills/sonic-pi-sample-integration"
+```
+
+Then invoke it explicitly, for example:
+
+```text
+$sonic-pi-sample-integration find a licensed clean bass sample pack and build an isolated study for this track
+```
+
+The workflow creates and validates an isolated study before modifying an
+arrangement. Promotion into a newly versioned arrangement remains a separate,
+user-approved step.
 
 ## Aerodynamic arrangements
 
