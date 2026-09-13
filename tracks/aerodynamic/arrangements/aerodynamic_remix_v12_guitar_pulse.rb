@@ -417,26 +417,22 @@ define :distorted_zawa_lead_bar do |notes, absolute_bar, sample_root,
   end
 end
 
-# Three beats of the lead motif followed by the accelerating D4 stutter.
-define :distorted_zawa_lead_stutter_bar do |notes, absolute_bar, sample_root,
+# Three beats of the lead motif followed by one complete beat of silence.
+define :distorted_zawa_lead_cut_bar do |notes, absolute_bar, sample_root,
     note_map, source_map|
   3.times do |repeat_index|
     notes.each_with_index do |pitch, note_index|
       event_index = (repeat_index * 4) + note_index
       accented = note_index == 0
+      final_note = repeat_index == 2 && note_index == notes.length - 1
+      release_value = final_note ? 0.04 : 0.20
       play_distorted_zawa_lead_note pitch, absolute_bar, event_index,
-        accented, 0.20, sample_root, note_map, source_map
+        accented, release_value, sample_root, note_map, source_map
       sleep 0.25
     end
   end
 
-  intervals = [0.5, 0.25, 0.125, 0.125]
-  releases = [0.10, 0.07, 0.04, 0.03]
-  intervals.each_with_index do |interval, index|
-    play_distorted_zawa_lead_note :d4, absolute_bar, 12 + index, false,
-      releases[index], sample_root, note_map, source_map
-    sleep interval
-  end
+  sleep 1
 end
 
 # The Effets track doubles the lower tapping phrase in selected measures.
@@ -796,12 +792,12 @@ define :simple_primary_drums_bar do
   sleep 1
 end
 
-# Three beats of the approved lead/groove followed by an accelerating D4
-# stutter. All sounding events terminate before the next downbeat.
-define :transition_stutter_bar do |lead_notes, absolute_bar, sample_root,
+# Three beats of the approved lead/groove followed by a silent final beat.
+# Every accompaniment event also terminates before that silent beat begins.
+define :transition_cut_bar do |lead_notes, absolute_bar, sample_root,
     note_map, source_map|
   in_thread do
-    distorted_zawa_lead_stutter_bar lead_notes, absolute_bar, sample_root,
+    distorted_zawa_lead_cut_bar lead_notes, absolute_bar, sample_root,
       note_map, source_map
   end
 
@@ -1141,7 +1137,7 @@ lead_stage_one_bars.times do |bar|
   sleep 4
 end
 
-# 1:40-2:12: delayed drop, half-time reset, climax, and stutter.
+# 1:40-2:12: delayed drop, half-time reset, climax, and silent lead cut.
 cue :section_lead_stage_two
 lead_stage_two_bars.times do |bar|
   source_measure = 33 + (bar % 8)
@@ -1150,7 +1146,7 @@ lead_stage_two_bars.times do |bar|
 
   if bar == 15
     in_thread do
-      transition_stutter_bar lower_lead[phrase_bar],
+      transition_cut_bar lower_lead[phrase_bar],
         lead_stage_two_start_bar + bar, distorted_sample_root,
         distorted_note_map, distorted_source_map
     end
