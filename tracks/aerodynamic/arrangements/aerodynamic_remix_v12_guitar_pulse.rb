@@ -417,17 +417,15 @@ define :distorted_zawa_lead_bar do |notes, absolute_bar, sample_root,
   end
 end
 
-# Three beats of the lead motif followed by one complete beat of silence.
+# Three beats of the lead motif followed by a short, clean gap.
 define :distorted_zawa_lead_cut_bar do |notes, absolute_bar, sample_root,
     note_map, source_map|
   3.times do |repeat_index|
     notes.each_with_index do |pitch, note_index|
       event_index = (repeat_index * 4) + note_index
       accented = note_index == 0
-      final_note = repeat_index == 2 && note_index == notes.length - 1
-      release_value = final_note ? 0.04 : 0.20
       play_distorted_zawa_lead_note pitch, absolute_bar, event_index,
-        accented, release_value, sample_root, note_map, source_map
+        accented, 0.20, sample_root, note_map, source_map
       sleep 0.25
     end
   end
@@ -792,8 +790,8 @@ define :simple_primary_drums_bar do
   sleep 1
 end
 
-# Three beats of the approved lead/groove followed by a silent final beat.
-# Every accompaniment event also terminates before that silent beat begins.
+# Three beats of the approved lead/groove followed by a short, clean gap.
+# Every accompaniment event terminates before the transition bell begins.
 define :transition_cut_bar do |lead_notes, absolute_bar, sample_root,
     note_map, source_map|
   in_thread do
