@@ -15,7 +15,7 @@ releases.
 
 ## Listen online
 
-<a href="https://brucewayneisbatman.org/sonic-pi-project/">
+<a href="http://pkfamily.github.io/sonic-pi-project/">
   <img src="assets/sonic-pi-media-player.png" alt="Historical V10 concept for the Sonic Pi media player" width="100%">
 </a>
 
