@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-31",
+  "base": "V10 stems; no change to the V12 Sonic Pi arrangement",
+  "selected": {
+    "lead": "A: 32 dB drive, Marshall JCM800 cabinet, short delay",
+    "melody": "Wah guitar from user B3/E4 samples",
+    "bass": "Rounder synthesized bass"
+  },
+  "rejected": [
+    "Harder/brighter lead alternatives",
+    "Octave/body lead variants",
+    "Extra-snap melody variants",
+    "Synth-pluck melody"
+  ],
+  "mix": {
+    "lead_db": -2,
+    "under_lead_melody_db": 10,
+    "front_melody": "Matched to original foreground level"
+  },
+  "audio_assets": {
+    "samples/guitar_A2.wav": "4be9a9064f2cbabd764f890ecc08a1e924de7505e7c90477dd52e7847df1b94c",
+    "samples/guitar_B3.wav": "ee4d73f9a2e93f115207b44b95415aaf77bf18ab452156759186d16c565f5c3f",
+    "samples/guitar_D3.wav": "b8320a75c5b9563c0008b9dee9d2b1f4ef29a89a162b143aa21cd25fe513f4eb",
+    "samples/guitar_E2.wav": "adb3cbb6d57245c3c555272b9d86fb2ff599b6c60a9f15756b2de92b8c118991",
+    "samples/guitar_E4.wav": "a95ed178a6a683f47cdbc2a2764df01ae2ebbddbc3b91fab300bce71971a272d",
+    "samples/guitar_G3.wav": "e5c6de50acf43e0aec2d3909a31c721985a9e55ad3be340f126e7c8dec84db1d",
+    "wah-melody.wav": "4fe56e2d5c49135df51c2ad583083c0e96a5920873f0f70e196978815522ba06"
+  }
+}

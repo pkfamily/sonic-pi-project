@@ -12,3 +12,5 @@ __pycache__/
 tools/sonic-pi-tool.py
 renders/
 tracks/aerodynamic/references/local_samples/
+
+.venv-recorded-session/

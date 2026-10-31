@@ -121,6 +121,11 @@ and the distorted pack documented in the
 See the complete [Aerodynamic arrangement history](docs/aerodynamic-arrangement-history.md)
 for the version table, derivation notes, and timeline.
 
+A separate [recorded-guitar session wrap](docs/aerodynamic-recorded-session.md)
+uses the user's selected guitar lead, wah melody, and rounder bass in a
+complete offline REAPER mix. Its portable renderer and input hashes are
+tracked; personal recordings and full-resolution exports remain local.
+
 V10 remains the latest fully built-in and stem-rendered version. Its aligned
 stems were imported into REAPER and mixed there as part of the REAPER MCP
 production workflow; see the [Aerodynamic REAPER retrospective](docs/aerodynamic-reaper-retrospective.md)
